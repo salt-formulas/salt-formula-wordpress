@@ -8,8 +8,8 @@ include:
 
 /srv/wordpress/sites/{{ app_name }}:
   file.directory:
-  - user: root
-  - group: root
+  - user: www-data
+  - group: www-data
   - mode: 770
   - makedirs: true
 
