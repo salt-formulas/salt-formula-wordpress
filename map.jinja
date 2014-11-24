@@ -1,0 +1,5 @@
+{% set server = salt['grains.filter_by']({
+    'default': {
+        'git_source': 'https://github.com/WordPress/WordPress.git',
+    },
+}, merge=salt['pillar.get']('wordpress:server')) %}
