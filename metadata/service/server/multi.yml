@@ -1,0 +1,6 @@
+applications:
+- wordpress
+parameters:
+  wordpress:
+    server:
+      enabled: true
