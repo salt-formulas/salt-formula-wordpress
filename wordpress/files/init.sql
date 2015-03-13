@@ -1,6 +1,6 @@
-USE w_devel;
+USE {{ app.database.name }};
 
-CREATE TABLE IF NOT EXISTS `wp_ds15bc_commentmeta` (
+CREATE TABLE IF NOT EXISTS `{{ app_name }}_commentmeta` (
   `meta_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `comment_id` bigint(20) unsigned NOT NULL DEFAULT '0',
   `meta_key` varchar(255) DEFAULT NULL,
@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `wp_ds15bc_commentmeta` (
   KEY `meta_key` (`meta_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-CREATE TABLE IF NOT EXISTS `wp_ds15bc_comments` (
+CREATE TABLE IF NOT EXISTS `{{ app_name }}_comments` (
   `comment_ID` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `comment_post_ID` bigint(20) unsigned NOT NULL DEFAULT '0',
   `comment_author` tinytext NOT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `wp_ds15bc_comments` (
   KEY `comment_author_email` (`comment_author_email`(10))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-CREATE TABLE IF NOT EXISTS `wp_ds15bc_links` (
+CREATE TABLE IF NOT EXISTS `{{ app_name }}_links` (
   `link_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `link_url` varchar(255) NOT NULL DEFAULT '',
   `link_name` varchar(255) NOT NULL DEFAULT '',
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `wp_ds15bc_links` (
   KEY `link_visible` (`link_visible`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-CREATE TABLE IF NOT EXISTS `wp_ds15bc_options` (
+CREATE TABLE IF NOT EXISTS `{{ app_name }}_options` (
   `option_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `option_name` varchar(64) NOT NULL DEFAULT '',
   `option_value` longtext NOT NULL,
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `wp_ds15bc_options` (
   UNIQUE KEY `option_name` (`option_name`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=111 ;
 
-INSERT INTO `wp_ds15bc_options` (`option_id`, `option_name`, `option_value`, `autoload`) VALUES
+INSERT INTO `{{ app_name }}_options` (`option_id`, `option_name`, `option_value`, `autoload`) VALUES
 (1, 'siteurl', 'http://localhost/bc', 'yes'),
 (2, 'home', 'http://localhost/bc', 'yes'),
 (3, 'blogname', 'New web page.', 'yes'),
@@ -171,7 +171,7 @@ INSERT INTO `wp_ds15bc_options` (`option_id`, `option_name`, `option_value`, `au
 (109, 'can_compress_scripts', '1', 'yes'),
 (110, 'recently_activated', 'a:0:{}', 'yes');
 
-CREATE TABLE IF NOT EXISTS `wp_ds15bc_postmeta` (
+CREATE TABLE IF NOT EXISTS `{{ app_name }}_postmeta` (
   `meta_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `post_id` bigint(20) unsigned NOT NULL DEFAULT '0',
   `meta_key` varchar(255) DEFAULT NULL,
@@ -181,10 +181,10 @@ CREATE TABLE IF NOT EXISTS `wp_ds15bc_postmeta` (
   KEY `meta_key` (`meta_key`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
-INSERT INTO `wp_ds15bc_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUES
+INSERT INTO `{{ app_name }}_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUES
 (1, 2, '_wp_page_template', 'default');
 
-CREATE TABLE IF NOT EXISTS `wp_ds15bc_posts` (
+CREATE TABLE IF NOT EXISTS `{{ app_name }}_posts` (
   `ID` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `post_author` bigint(20) unsigned NOT NULL DEFAULT '0',
   `post_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -215,10 +215,10 @@ CREATE TABLE IF NOT EXISTS `wp_ds15bc_posts` (
   KEY `post_author` (`post_author`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
-INSERT INTO `wp_ds15bc_posts` (`ID`, `post_author`, `post_date`, `post_date_gmt`, `post_content`, `post_title`, `post_excerpt`, `post_status`, `comment_status`, `ping_status`, `post_password`, `post_name`, `to_ping`, `pinged`, `post_modified`, `post_modified_gmt`, `post_content_filtered`, `post_parent`, `guid`, `menu_order`, `post_type`, `post_mime_type`, `comment_count`) VALUES
+INSERT INTO `{{ app_name }}_posts` (`ID`, `post_author`, `post_date`, `post_date_gmt`, `post_content`, `post_title`, `post_excerpt`, `post_status`, `comment_status`, `ping_status`, `post_password`, `post_name`, `to_ping`, `pinged`, `post_modified`, `post_modified_gmt`, `post_content_filtered`, `post_parent`, `guid`, `menu_order`, `post_type`, `post_mime_type`, `comment_count`) VALUES
 (1, 1, '2015-03-01 16:34:03', '2015-03-01 16:34:03', 'Welcome to WordPress. This is your first post. Edit or delete it, then start blogging!', 'Hello world!', '', 'publish', 'open', 'open', '', 'hello-world', '', '', '2015-03-01 16:34:03', '2015-03-01 16:34:03', '', 0, 'http://localhost/bc/?p=1', 0, 'post', '', 1);
 
-CREATE TABLE IF NOT EXISTS `wp_ds15bc_terms` (
+CREATE TABLE IF NOT EXISTS `{{ app_name }}_terms` (
   `term_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(200) NOT NULL DEFAULT '',
   `slug` varchar(200) NOT NULL DEFAULT '',
@@ -228,11 +228,11 @@ CREATE TABLE IF NOT EXISTS `wp_ds15bc_terms` (
   KEY `name` (`name`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
-INSERT INTO `wp_ds15bc_terms` (`term_id`, `name`, `slug`, `term_group`) VALUES
+INSERT INTO `{{ app_name }}_terms` (`term_id`, `name`, `slug`, `term_group`) VALUES
 (1, 'Uncategorized', 'uncategorized', 0);
 
 
-CREATE TABLE IF NOT EXISTS `wp_ds15bc_term_relationships` (
+CREATE TABLE IF NOT EXISTS `{{ app_name }}_term_relationships` (
   `object_id` bigint(20) unsigned NOT NULL DEFAULT '0',
   `term_taxonomy_id` bigint(20) unsigned NOT NULL DEFAULT '0',
   `term_order` int(11) NOT NULL DEFAULT '0',
@@ -240,10 +240,10 @@ CREATE TABLE IF NOT EXISTS `wp_ds15bc_term_relationships` (
   KEY `term_taxonomy_id` (`term_taxonomy_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `wp_ds15bc_term_relationships` (`object_id`, `term_taxonomy_id`, `term_order`) VALUES
+INSERT INTO `{{ app_name }}_term_relationships` (`object_id`, `term_taxonomy_id`, `term_order`) VALUES
 (1, 1, 0);
 
-CREATE TABLE IF NOT EXISTS `wp_ds15bc_term_taxonomy` (
+CREATE TABLE IF NOT EXISTS `{{ app_name }}_term_taxonomy` (
   `term_taxonomy_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `term_id` bigint(20) unsigned NOT NULL DEFAULT '0',
   `taxonomy` varchar(32) NOT NULL DEFAULT '',
@@ -255,10 +255,10 @@ CREATE TABLE IF NOT EXISTS `wp_ds15bc_term_taxonomy` (
   KEY `taxonomy` (`taxonomy`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
-INSERT INTO `wp_ds15bc_term_taxonomy` (`term_taxonomy_id`, `term_id`, `taxonomy`, `description`, `parent`, `count`) VALUES
+INSERT INTO `{{ app_name }}_term_taxonomy` (`term_taxonomy_id`, `term_id`, `taxonomy`, `description`, `parent`, `count`) VALUES
 (1, 1, 'category', '', 0, 1);
 
-CREATE TABLE IF NOT EXISTS `wp_ds15bc_usermeta` (
+CREATE TABLE IF NOT EXISTS `{{ app_name }}_usermeta` (
   `umeta_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) unsigned NOT NULL DEFAULT '0',
   `meta_key` varchar(255) DEFAULT NULL,
@@ -268,7 +268,7 @@ CREATE TABLE IF NOT EXISTS `wp_ds15bc_usermeta` (
   KEY `meta_key` (`meta_key`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
 
-INSERT INTO `wp_ds15bc_usermeta` (`umeta_id`, `user_id`, `meta_key`, `meta_value`) VALUES
+INSERT INTO `{{ app_name }}_usermeta` (`umeta_id`, `user_id`, `meta_key`, `meta_value`) VALUES
 (1, 1, 'nickname', 'Del_S'),
 (2, 1, 'first_name', ''),
 (3, 1, 'last_name', ''),
@@ -285,7 +285,7 @@ INSERT INTO `wp_ds15bc_usermeta` (`umeta_id`, `user_id`, `meta_key`, `meta_value
 (14, 1, 'session_tokens', 'a:1:{s:64:"75389bc85a7d5a3fd38f1e307275c0347f929100d223834ed687ee5b1162d5b5";a:4:{s:10:"expiration";i:1425400455;s:2:"ip";s:3:"::1";s:2:"ua";s:109:"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.115 Safari/537.36";s:5:"login";i:1425227655;}}'),
 (15, 1, 'wp_ds15bc_dashboard_quick_press_last_post_id', '5');
 
-CREATE TABLE IF NOT EXISTS `wp_ds15bc_users` (
+CREATE TABLE IF NOT EXISTS `{{ app_name }}_users` (
   `ID` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `user_login` varchar(60) NOT NULL DEFAULT '',
   `user_pass` varchar(64) NOT NULL DEFAULT '',
@@ -301,5 +301,5 @@ CREATE TABLE IF NOT EXISTS `wp_ds15bc_users` (
   KEY `user_nicename` (`user_nicename`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
-INSERT INTO `wp_ds15bc_users` (`ID`, `user_login`, `user_pass`, `user_nicename`, `user_email`, `user_url`, `user_registered`, `user_activation_key`, `user_status`, `display_name`) VALUES
+INSERT INTO `{{ app_name }}_users` (`ID`, `user_login`, `user_pass`, `user_nicename`, `user_email`, `user_url`, `user_registered`, `user_activation_key`, `user_status`, `display_name`) VALUES
 (1, 'Del_S', '$P$BHP8ucZ4kApqgN6bf.bJ2clPNu77Ac0', 'del_s', 'david@sucharda.cz', '', '2015-03-01 16:34:03', '', 0, 'Del_S');
