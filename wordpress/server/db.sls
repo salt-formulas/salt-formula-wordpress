@@ -8,7 +8,7 @@ include:
 
 create_db:
   cmd.run:
-    - name: mysql -u {{ app.database.user }} -ptestuser < /tmp/init.mysql
+    - name: mysql -u {{ app.database.user }} -p {{ app.database.password }} -ptestuser < /tmp/init.mysql
     - require:
       - service: mysql
       - file: /tmp/init.mysql
