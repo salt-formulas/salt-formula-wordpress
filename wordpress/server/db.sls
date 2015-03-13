@@ -3,7 +3,6 @@
 
 include:
 - mysql
-- mysql.query
 
 {%- for app_name, app in server.app.iteritems() %}
 
