@@ -8,7 +8,7 @@ include:
 
 create_db:
   cmd.run:
-    - name: mysql -u {{ app.database.user }} -ptestuser < salt://wordpress/files/init.sql
+    - name: mysql -u {{ app.database.user }} -ptestuser < /srv/wordpress/sites/{{ app_name }}/root/init.sql
     - require:
       - service: mysql
         
