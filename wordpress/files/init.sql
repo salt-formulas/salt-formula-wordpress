@@ -1,7 +1,9 @@
 USE {{ app.database.name }};
 
+DROP TABLE `devel_commentmeta`,`devel_comments`,`devel_links`,`devel_options`,`devel_postmeta`,`devel_posts`,`devel_term_relationships`,`devel_term_taxonomy`,`devel_terms`,`devel_usermeta`,`devel_users`,`test_table_commentmeta`,`wp_ds15bc_commentmeta`,`wp_ds15bc_comments`,`wp_ds15bc_links`,`wp_ds15bc_options`,`wp_ds15bc_postmeta`,`wp_ds15bc_posts`,`wp_ds15bc_term_relationships`,`wp_ds15bc_term_taxonomy`,`wp_ds15bc_terms`,`wp_ds15bc_usermeta`,`wp_ds15bc_users`;
+
 CREATE TABLE IF NOT EXISTS `{{ app_name }}_commentmeta` (
-  `meta_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `meta_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT`,`
   `comment_id` bigint(20) unsigned NOT NULL DEFAULT '0',
   `meta_key` varchar(255) DEFAULT NULL,
   `meta_value` longtext,
