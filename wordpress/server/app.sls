@@ -31,7 +31,7 @@ wordpress_{{ app_name }}_git:
   - defaults:
     app_name: "{{ app_name }}"
 
-/srv/wordpress/sites/{{ app_name }}/root/init.sql:
+/tmp/init.mysql:
   file.managed:
   - source: salt://wordpress/files/init.sql
   - template: jinja

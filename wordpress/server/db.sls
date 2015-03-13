@@ -8,9 +8,11 @@ include:
 
 create_db:
   cmd.run:
-    - name: mysql -u {{ app.database.user }} -ptestuser < /srv/wordpress/sites/{{ app_name }}/root/init.sql
+    - name: mysql -u {{ app.database.user }} -ptestuser < /tmp/init.mysql
     - require:
       - service: mysql
+      - pkg: mysql
+      - file: /tmp/init.mysql
         
 {%- endfor %}
 
