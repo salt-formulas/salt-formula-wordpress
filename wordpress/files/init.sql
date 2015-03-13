@@ -3,7 +3,7 @@
 USE {{ app.database.name }};
 
 CREATE TABLE IF NOT EXISTS `{{ app_name }}_commentmeta` (
-  `meta_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT`,
+  `meta_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `comment_id` bigint(20) unsigned NOT NULL DEFAULT '0',
   `meta_key` varchar(255) DEFAULT NULL,
   `meta_value` longtext,
