@@ -1,3 +1,5 @@
+USE w_devel;
+
 CREATE TABLE IF NOT EXISTS `wp_ds15bc_commentmeta` (
   `meta_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `comment_id` bigint(20) unsigned NOT NULL DEFAULT '0',
