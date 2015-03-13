@@ -11,7 +11,6 @@ create_db:
     - name: mysql -u {{ app.database.user }} -ptestuser < /tmp/init.mysql
     - require:
       - service: mysql
-      - pkg: mysql
       - file: /tmp/init.mysql
         
 {%- endfor %}
