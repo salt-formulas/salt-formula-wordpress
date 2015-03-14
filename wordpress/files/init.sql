@@ -10,7 +10,7 @@ USE {{ app.database.name }};
 /*!40101 SET NAMES utf8 */;
 
 --
--- Databáze: `bc`
+-- Databáze: `bc_totally_empty`
 --
 
 -- --------------------------------------------------------
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `{{ app_name }}_commentmeta` (
   `meta_value` longtext,
   PRIMARY KEY (`meta_id`),
   KEY `comment_id` (`comment_id`),
-  KEY `meta_key` (`meta_key`)
+  KEY `meta_key` (`meta_key`(191))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `{{ app_name }}_comments` (
   KEY `comment_date_gmt` (`comment_date_gmt`),
   KEY `comment_parent` (`comment_parent`),
   KEY `comment_author_email` (`comment_author_email`(10))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
@@ -123,14 +123,14 @@ INSERT INTO `{{ app_name }}_options` (`option_id`, `option_name`, `option_value`
 (18, 'default_category', '1', 'yes'),
 (19, 'default_comment_status', 'open', 'yes'),
 (20, 'default_ping_status', 'open', 'yes'),
-(21, 'default_pingback_flag', '0', 'yes'),
+(21, 'default_pingback_flag', '1', 'yes'),
 (22, 'posts_per_page', '10', 'yes'),
 (23, 'date_format', 'F j, Y', 'yes'),
 (24, 'time_format', 'g:i a', 'yes'),
 (25, 'links_updated_date_format', 'F j, Y g:i a', 'yes'),
 (26, 'comment_moderation', '0', 'yes'),
 (27, 'moderation_notify', '1', 'yes'),
-(28, 'permalink_structure', '', 'yes'),
+(28, 'permalink_structure', '/%year%/%monthnum%/%day%/%postname%/', 'yes'),
 (29, 'gzipcompression', '0', 'yes'),
 (30, 'hack_file', '0', 'yes'),
 (31, 'blog_charset', 'UTF-8', 'yes'),
@@ -151,10 +151,10 @@ INSERT INTO `{{ app_name }}_options` (`option_id`, `option_name`, `option_value`
 (46, 'html_type', 'text/html', 'yes'),
 (47, 'use_trackback', '0', 'yes'),
 (48, 'default_role', 'subscriber', 'yes'),
-(49, 'db_version', '30133', 'yes'),
+(49, 'db_version', '31532', 'yes'),
 (50, 'uploads_use_yearmonth_folders', '1', 'yes'),
 (51, 'upload_path', '', 'yes'),
-(52, 'blog_public', '0', 'yes'),
+(52, 'blog_public', '1', 'yes'),
 (53, 'default_link_category', '2', 'yes'),
 (54, 'show_on_front', 'posts', 'yes'),
 (55, 'tag_base', '', 'yes'),
@@ -190,7 +190,7 @@ INSERT INTO `{{ app_name }}_options` (`option_id`, `option_name`, `option_value`
 (85, 'page_on_front', '0', 'yes'),
 (86, 'default_post_format', '0', 'yes'),
 (87, 'link_manager_enabled', '0', 'yes'),
-(88, 'initial_db_version', '30133', 'yes'),
+(88, 'initial_db_version', '31532', 'yes'),
 (89, '{{ app_name }}_user_roles', 'a:5:{s:13:"administrator";a:2:{s:4:"name";s:13:"Administrator";s:12:"capabilities";a:62:{s:13:"switch_themes";b:1;s:11:"edit_themes";b:1;s:16:"activate_plugins";b:1;s:12:"edit_plugins";b:1;s:10:"edit_users";b:1;s:10:"edit_files";b:1;s:14:"manage_options";b:1;s:17:"moderate_comments";b:1;s:17:"manage_categories";b:1;s:12:"manage_links";b:1;s:12:"upload_files";b:1;s:6:"import";b:1;s:15:"unfiltered_html";b:1;s:10:"edit_posts";b:1;s:17:"edit_others_posts";b:1;s:20:"edit_published_posts";b:1;s:13:"publish_posts";b:1;s:10:"edit_pages";b:1;s:4:"read";b:1;s:8:"level_10";b:1;s:7:"level_9";b:1;s:7:"level_8";b:1;s:7:"level_7";b:1;s:7:"level_6";b:1;s:7:"level_5";b:1;s:7:"level_4";b:1;s:7:"level_3";b:1;s:7:"level_2";b:1;s:7:"level_1";b:1;s:7:"level_0";b:1;s:17:"edit_others_pages";b:1;s:20:"edit_published_pages";b:1;s:13:"publish_pages";b:1;s:12:"delete_pages";b:1;s:19:"delete_others_pages";b:1;s:22:"delete_published_pages";b:1;s:12:"delete_posts";b:1;s:19:"delete_others_posts";b:1;s:22:"delete_published_posts";b:1;s:20:"delete_private_posts";b:1;s:18:"edit_private_posts";b:1;s:18:"read_private_posts";b:1;s:20:"delete_private_pages";b:1;s:18:"edit_private_pages";b:1;s:18:"read_private_pages";b:1;s:12:"delete_users";b:1;s:12:"create_users";b:1;s:17:"unfiltered_upload";b:1;s:14:"edit_dashboard";b:1;s:14:"update_plugins";b:1;s:14:"delete_plugins";b:1;s:15:"install_plugins";b:1;s:13:"update_themes";b:1;s:14:"install_themes";b:1;s:11:"update_core";b:1;s:10:"list_users";b:1;s:12:"remove_users";b:1;s:9:"add_users";b:1;s:13:"promote_users";b:1;s:18:"edit_theme_options";b:1;s:13:"delete_themes";b:1;s:6:"export";b:1;}}s:6:"editor";a:2:{s:4:"name";s:6:"Editor";s:12:"capabilities";a:34:{s:17:"moderate_comments";b:1;s:17:"manage_categories";b:1;s:12:"manage_links";b:1;s:12:"upload_files";b:1;s:15:"unfiltered_html";b:1;s:10:"edit_posts";b:1;s:17:"edit_others_posts";b:1;s:20:"edit_published_posts";b:1;s:13:"publish_posts";b:1;s:10:"edit_pages";b:1;s:4:"read";b:1;s:7:"level_7";b:1;s:7:"level_6";b:1;s:7:"level_5";b:1;s:7:"level_4";b:1;s:7:"level_3";b:1;s:7:"level_2";b:1;s:7:"level_1";b:1;s:7:"level_0";b:1;s:17:"edit_others_pages";b:1;s:20:"edit_published_pages";b:1;s:13:"publish_pages";b:1;s:12:"delete_pages";b:1;s:19:"delete_others_pages";b:1;s:22:"delete_published_pages";b:1;s:12:"delete_posts";b:1;s:19:"delete_others_posts";b:1;s:22:"delete_published_posts";b:1;s:20:"delete_private_posts";b:1;s:18:"edit_private_posts";b:1;s:18:"read_private_posts";b:1;s:20:"delete_private_pages";b:1;s:18:"edit_private_pages";b:1;s:18:"read_private_pages";b:1;}}s:6:"author";a:2:{s:4:"name";s:6:"Author";s:12:"capabilities";a:10:{s:12:"upload_files";b:1;s:10:"edit_posts";b:1;s:20:"edit_published_posts";b:1;s:13:"publish_posts";b:1;s:4:"read";b:1;s:7:"level_2";b:1;s:7:"level_1";b:1;s:7:"level_0";b:1;s:12:"delete_posts";b:1;s:22:"delete_published_posts";b:1;}}s:11:"contributor";a:2:{s:4:"name";s:11:"Contributor";s:12:"capabilities";a:5:{s:10:"edit_posts";b:1;s:4:"read";b:1;s:7:"level_1";b:1;s:7:"level_0";b:1;s:12:"delete_posts";b:1;}}s:10:"subscriber";a:2:{s:4:"name";s:10:"Subscriber";s:12:"capabilities";a:2:{s:4:"read";b:1;s:7:"level_0";b:1;}}}', 'yes'),
 (90, 'widget_search', 'a:2:{i:2;a:1:{s:5:"title";s:0:"";}s:12:"_multiwidget";i:1;}', 'yes'),
 (91, 'widget_recent-posts', 'a:2:{i:2;a:2:{s:5:"title";s:0:"";s:6:"number";i:5;}s:12:"_multiwidget";i:1;}', 'yes'),
@@ -198,19 +198,15 @@ INSERT INTO `{{ app_name }}_options` (`option_id`, `option_name`, `option_value`
 (93, 'widget_archives', 'a:2:{i:2;a:3:{s:5:"title";s:0:"";s:5:"count";i:0;s:8:"dropdown";i:0;}s:12:"_multiwidget";i:1;}', 'yes'),
 (94, 'widget_meta', 'a:2:{i:2;a:1:{s:5:"title";s:0:"";}s:12:"_multiwidget";i:1;}', 'yes'),
 (95, 'sidebars_widgets', 'a:3:{s:19:"wp_inactive_widgets";a:0:{}s:9:"sidebar-1";a:6:{i:0;s:8:"search-2";i:1;s:14:"recent-posts-2";i:2;s:17:"recent-comments-2";i:3;s:10:"archives-2";i:4;s:12:"categories-2";i:5;s:6:"meta-2";}s:13:"array_version";i:3;}', 'yes'),
-(96, 'cron', 'a:4:{i:1425270849;a:3:{s:16:"wp_version_check";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:10:"twicedaily";s:4:"args";a:0:{}s:8:"interval";i:43200;}}s:17:"wp_update_plugins";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:10:"twicedaily";s:4:"args";a:0:{}s:8:"interval";i:43200;}}s:16:"wp_update_themes";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:10:"twicedaily";s:4:"args";a:0:{}s:8:"interval";i:43200;}}}i:1425282120;a:1:{s:20:"wp_maybe_auto_update";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:10:"twicedaily";s:4:"args";a:0:{}s:8:"interval";i:43200;}}}i:1425314055;a:1:{s:19:"wp_scheduled_delete";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:5:"daily";s:4:"args";a:0:{}s:8:"interval";i:86400;}}}s:7:"version";i:2;}', 'yes'),
-(98, '_site_transient_update_core', 'O:8:"stdClass":3:{s:7:"updates";a:0:{}s:15:"version_checked";s:5:"4.1.1";s:12:"last_checked";i:1425227655;}', 'yes'),
-(99, '_site_transient_update_plugins', 'O:8:"stdClass":1:{s:12:"last_checked";i:1425228926;}', 'yes'),
-(100, '_site_transient_timeout_theme_roots', '1425229455', 'yes'),
-(101, '_site_transient_theme_roots', 'a:3:{s:13:"twentyfifteen";s:7:"/themes";s:14:"twentyfourteen";s:7:"/themes";s:14:"twentythirteen";s:7:"/themes";}', 'yes'),
-(102, '_site_transient_update_themes', 'O:8:"stdClass":1:{s:12:"last_checked";i:1425227655;}', 'yes'),
-(103, '_transient_random_seed', 'cc31c8723caa6601bbb0e97dccffe4dd', 'yes'),
-(105, '_transient_timeout_plugin_slugs', '1425315326', 'no'),
-(106, '_transient_plugin_slugs', 'a:95:{i:0;s:26:"wp-security-scan/index.php";i:1;s:51:"codepress-admin-columns/codepress-admin-columns.php";i:2;s:19:"akismet/akismet.php";i:3;s:23:"anti-spam/anti-spam.php";i:4;s:27:"autoptimize/autoptimize.php";i:5;s:25:"bwp-minify/bwp-minify.php";i:6;s:29:"bj-lazy-load/bj-lazy-load.php";i:7;s:43:"broken-link-checker/broken-link-checker.php";i:8;s:35:"co-authors-plus/co-authors-plus.php";i:9;s:36:"contact-form-7/wp-contact-form-7.php";i:10;s:35:"crop-thumbnails/crop-thumbnails.php";i:11;s:32:"disqus-comment-system/disqus.php";i:12;s:63:"disqus-recent-comments-widget/disqus_recent_comments_widget.php";i:13;s:48:"disqus-recent-comments-widget-advanced/drcwa.php";i:14;s:33:"duplicate-post/duplicate-post.php";i:15;s:25:"duplicator/duplicator.php";i:16;s:29:"easy-sign-up/easy_sign_up.php";i:17;s:39:"eps-301-redirects/eps-301-redirects.php";i:18;s:36:"elegantbuilder/et-layout-builder.php";i:19;s:49:"elegant-themes-updater/elegant-themes-updater.php";i:20;s:43:"elnino-email-export/elnino-email-export.php";i:21;s:35:"email-immunizer/email-immunizer.php";i:22;s:39:"email-subscribers/email-subscribers.php";i:23;s:45:"ewww-image-optimizer/ewww-image-optimizer.php";i:24;s:41:"sem-external-links/sem-external-links.php";i:25;s:46:"facebook-comments-plugin/facebook-comments.php";i:26;s:52:"arscode-social-slider-free/arscode-social-slider.php";i:27;s:44:"g-lock-double-opt-in-manager/glsft-optin.php";i:28;s:35:"gallery-columns/gallery-columns.php";i:29;s:50:"google-analytics-for-wordpress/googleanalytics.php";i:30;s:9:"hello.php";i:31;s:19:"iwp-client/init.php";i:32;s:19:"jetpack/jetpack.php";i:33;s:31:"landing-pages/landing-pages.php";i:34;s:45:"limit-login-attempts/limit-login-attempts.php";i:35;s:28:"wysija-newsletters/index.php";i:36;s:39:"manual-image-crop/manual-image-crop.php";i:37;s:43:"marketing-optimizer/marketing-optimizer.php";i:38;s:15:"maxab/maxab.php";i:39;s:39:"mce-table-buttons/mce_table_buttons.php";i:40;s:19:"members/members.php";i:41;s:19:"monarch/monarch.php";i:42;s:25:"nelio-ab-testing/main.php";i:43;s:21:"newsletter/plugin.php";i:44;s:39:"newsletter-export/newsletter-export.php";i:45;s:39:"outbound-link-manager/links-manager.php";i:46;s:27:"p3-profiler/p3-profiler.php";i:47;s:39:"prettyphoto-media/prettyphoto-media.php";i:48;s:29:"product-feed/product-feed.php";i:49;s:25:"profile-builder/index.php";i:50;s:31:"query-monitor/query-monitor.php";i:51;s:36:"quiz-master-next/mlw_quizmaster2.php";i:52;s:57:"real-time-find-and-replace/real-time-find-and-replace.php";i:53;s:47:"regenerate-thumbnails/regenerate-thumbnails.php";i:54;s:37:"resize-on-upload/resize-on-upload.php";i:55;s:47:"resize-at-upload-plus/resize-at-upload-plus.php";i:56;s:55:"resize-image-after-upload/resize-image-after-upload.php";i:57;s:19:"rewrite/rewrite.php";i:58;s:39:"search-everything/search-everything.php";i:59;s:35:"search-keyword-statistics/admin.php";i:60;s:37:"seo-facebook-comments/seofacebook.php";i:61;s:33:"seo-automatic-links/seo-links.php";i:62;s:27:"shareaholic/shareaholic.php";i:63;s:24:"simple-lightbox/main.php";i:64;s:45:"simple-local-avatars/simple-local-avatars.php";i:65;s:39:"simple-page-tester/simplepagetester.php";i:66;s:55:"simple-page-tester-premium/simplepagetester-premium.php";i:67;s:39:"simple-pagination/simple-pagination.php";i:68;s:44:"slideshow-jquery-image-gallery/slideshow.php";i:69;s:33:"ssh-sftp-updater-support/sftp.php";i:70;s:37:"super-rss-reader/super-rss-reader.php";i:71;s:33:"theme-my-login/theme-my-login.php";i:72;s:27:"updraftplus/updraftplus.php";i:73;s:25:"uploadplus/uploadplus.php";i:74;s:33:"w3-total-cache/w3-total-cache.php";i:75;s:32:"white-label-cms/wlcms-plugin.php";i:76;s:27:"woocommerce/woocommerce.php";i:77;s:85:"woocommerce-google-analytics-integration/woocommerce-google-analytics-integration.php";i:78;s:23:"wordfence/wordfence.php";i:79;s:52:"wordpress-backup-to-dropbox/wp-backup-to-dropbox.php";i:80;s:29:"wp-db-backup/wp-db-backup.php";i:81;s:41:"wordpress-importer/wordpress-importer.php";i:82;s:54:"wordpress-23-related-posts-plugin/wp_related_posts.php";i:83;s:24:"wordpress-seo/wp-seo.php";i:84;s:27:"wp-optimize/wp-optimize.php";i:85;s:25:"wp-better-emails/wpbe.php";i:86;s:27:"wp-clean-up/wp-clean-up.php";i:87;s:31:"wp-donottrack/wp-donottrack.php";i:88;s:35:"wp-fastest-cache/wpFastestCache.php";i:89;s:31:"wp-migrate-db/wp-migrate-db.php";i:90;s:43:"wp-native-dashboard/wp-native-dashboard.php";i:91;s:35:"wp-sitemap-page/wp-sitemap-page.php";i:92;s:27:"wp-super-cache/wp-cache.php";i:93;s:53:"yet-another-stars-rating/yet-another-stars-rating.php";i:94;s:30:"yith-maintenance-mode/init.php";}', 'no'),
-(107, '_transient_timeout_dash_4077549d03da2e451c8b5f002294ff51', '1425270857', 'no'),
-(108, '_transient_dash_4077549d03da2e451c8b5f002294ff51', '<div class="rss-widget"><p><strong>RSS Error</strong>: WP HTTP Error: Could not resolve host: wordpress.org</p></div><div class="rss-widget"><p><strong>RSS Error</strong>: WP HTTP Error: Could not resolve host: planet.wordpress.org</p></div><div class="rss-widget"><ul></ul></div>', 'no'),
-(109, 'can_compress_scripts', '1', 'yes'),
-(110, 'recently_activated', 'a:0:{}', 'yes');
+(97, 'cron', 'a:3:{i:1426318020;a:1:{s:20:"wp_maybe_auto_update";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:10:"twicedaily";s:4:"args";a:0:{}s:8:"interval";i:43200;}}}i:1426336145;a:3:{s:16:"wp_version_check";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:10:"twicedaily";s:4:"args";a:0:{}s:8:"interval";i:43200;}}s:17:"wp_update_plugins";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:10:"twicedaily";s:4:"args";a:0:{}s:8:"interval";i:43200;}}s:16:"wp_update_themes";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:10:"twicedaily";s:4:"args";a:0:{}s:8:"interval";i:43200;}}}s:7:"version";i:2;}', 'yes'),
+(98, '_transient_twentyfifteen_categories', '1', 'yes'),
+(99, 'rewrite_rules', 'a:58:{s:48:".*wp-(atom|rdf|rss|rss2|feed|commentsrss2)\\.php$";s:18:"index.php?feed=old";s:20:".*wp-app\\.php(/.*)?$";s:19:"index.php?error=403";s:18:".*wp-register.php$";s:23:"index.php?register=true";s:32:"feed/(feed|rdf|rss|rss2|atom)/?$";s:27:"index.php?&feed=$matches[1]";s:27:"(feed|rdf|rss|rss2|atom)/?$";s:27:"index.php?&feed=$matches[1]";s:20:"page/?([0-9]{1,})/?$";s:28:"index.php?&paged=$matches[1]";s:41:"comments/feed/(feed|rdf|rss|rss2|atom)/?$";s:42:"index.php?&feed=$matches[1]&withcomments=1";s:36:"comments/(feed|rdf|rss|rss2|atom)/?$";s:42:"index.php?&feed=$matches[1]&withcomments=1";s:44:"search/(.+)/feed/(feed|rdf|rss|rss2|atom)/?$";s:40:"index.php?s=$matches[1]&feed=$matches[2]";s:39:"search/(.+)/(feed|rdf|rss|rss2|atom)/?$";s:40:"index.php?s=$matches[1]&feed=$matches[2]";s:32:"search/(.+)/page/?([0-9]{1,})/?$";s:41:"index.php?s=$matches[1]&paged=$matches[2]";s:14:"search/(.+)/?$";s:23:"index.php?s=$matches[1]";s:47:"author/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$";s:50:"index.php?author_name=$matches[1]&feed=$matches[2]";s:42:"author/([^/]+)/(feed|rdf|rss|rss2|atom)/?$";s:50:"index.php?author_name=$matches[1]&feed=$matches[2]";s:35:"author/([^/]+)/page/?([0-9]{1,})/?$";s:51:"index.php?author_name=$matches[1]&paged=$matches[2]";s:17:"author/([^/]+)/?$";s:33:"index.php?author_name=$matches[1]";s:69:"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/feed/(feed|rdf|rss|rss2|atom)/?$";s:80:"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&feed=$matches[4]";s:64:"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/(feed|rdf|rss|rss2|atom)/?$";s:80:"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&feed=$matches[4]";s:57:"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/page/?([0-9]{1,})/?$";s:81:"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&paged=$matches[4]";s:39:"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/?$";s:63:"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]";s:56:"([0-9]{4})/([0-9]{1,2})/feed/(feed|rdf|rss|rss2|atom)/?$";s:64:"index.php?year=$matches[1]&monthnum=$matches[2]&feed=$matches[3]";s:51:"([0-9]{4})/([0-9]{1,2})/(feed|rdf|rss|rss2|atom)/?$";s:64:"index.php?year=$matches[1]&monthnum=$matches[2]&feed=$matches[3]";s:44:"([0-9]{4})/([0-9]{1,2})/page/?([0-9]{1,})/?$";s:65:"index.php?year=$matches[1]&monthnum=$matches[2]&paged=$matches[3]";s:26:"([0-9]{4})/([0-9]{1,2})/?$";s:47:"index.php?year=$matches[1]&monthnum=$matches[2]";s:43:"([0-9]{4})/feed/(feed|rdf|rss|rss2|atom)/?$";s:43:"index.php?year=$matches[1]&feed=$matches[2]";s:38:"([0-9]{4})/(feed|rdf|rss|rss2|atom)/?$";s:43:"index.php?year=$matches[1]&feed=$matches[2]";s:31:"([0-9]{4})/page/?([0-9]{1,})/?$";s:44:"index.php?year=$matches[1]&paged=$matches[2]";s:13:"([0-9]{4})/?$";s:26:"index.php?year=$matches[1]";s:58:"[0-9]{4}/[0-9]{1,2}/[0-9]{1,2}/[^/]+/attachment/([^/]+)/?$";s:32:"index.php?attachment=$matches[1]";s:68:"[0-9]{4}/[0-9]{1,2}/[0-9]{1,2}/[^/]+/attachment/([^/]+)/trackback/?$";s:37:"index.php?attachment=$matches[1]&tb=1";s:88:"[0-9]{4}/[0-9]{1,2}/[0-9]{1,2}/[^/]+/attachment/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$";s:49:"index.php?attachment=$matches[1]&feed=$matches[2]";s:83:"[0-9]{4}/[0-9]{1,2}/[0-9]{1,2}/[^/]+/attachment/([^/]+)/(feed|rdf|rss|rss2|atom)/?$";s:49:"index.php?attachment=$matches[1]&feed=$matches[2]";s:83:"[0-9]{4}/[0-9]{1,2}/[0-9]{1,2}/[^/]+/attachment/([^/]+)/comment-page-([0-9]{1,})/?$";s:50:"index.php?attachment=$matches[1]&cpage=$matches[2]";s:57:"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/([^/]+)/trackback/?$";s:85:"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&name=$matches[4]&tb=1";s:77:"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$";s:97:"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&name=$matches[4]&feed=$matches[5]";s:72:"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/([^/]+)/(feed|rdf|rss|rss2|atom)/?$";s:97:"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&name=$matches[4]&feed=$matches[5]";s:65:"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/([^/]+)/page/?([0-9]{1,})/?$";s:98:"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&name=$matches[4]&paged=$matches[5]";s:72:"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/([^/]+)/comment-page-([0-9]{1,})/?$";s:98:"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&name=$matches[4]&cpage=$matches[5]";s:57:"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/([^/]+)(/[0-9]+)?/?$";s:97:"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&name=$matches[4]&page=$matches[5]";s:47:"[0-9]{4}/[0-9]{1,2}/[0-9]{1,2}/[^/]+/([^/]+)/?$";s:32:"index.php?attachment=$matches[1]";s:57:"[0-9]{4}/[0-9]{1,2}/[0-9]{1,2}/[^/]+/([^/]+)/trackback/?$";s:37:"index.php?attachment=$matches[1]&tb=1";s:77:"[0-9]{4}/[0-9]{1,2}/[0-9]{1,2}/[^/]+/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$";s:49:"index.php?attachment=$matches[1]&feed=$matches[2]";s:72:"[0-9]{4}/[0-9]{1,2}/[0-9]{1,2}/[^/]+/([^/]+)/(feed|rdf|rss|rss2|atom)/?$";s:49:"index.php?attachment=$matches[1]&feed=$matches[2]";s:72:"[0-9]{4}/[0-9]{1,2}/[0-9]{1,2}/[^/]+/([^/]+)/comment-page-([0-9]{1,})/?$";s:50:"index.php?attachment=$matches[1]&cpage=$matches[2]";s:64:"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/comment-page-([0-9]{1,})/?$";s:81:"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&cpage=$matches[4]";s:51:"([0-9]{4})/([0-9]{1,2})/comment-page-([0-9]{1,})/?$";s:65:"index.php?year=$matches[1]&monthnum=$matches[2]&cpage=$matches[3]";s:38:"([0-9]{4})/comment-page-([0-9]{1,})/?$";s:44:"index.php?year=$matches[1]&cpage=$matches[2]";s:27:".?.+?/attachment/([^/]+)/?$";s:32:"index.php?attachment=$matches[1]";s:37:".?.+?/attachment/([^/]+)/trackback/?$";s:37:"index.php?attachment=$matches[1]&tb=1";s:57:".?.+?/attachment/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$";s:49:"index.php?attachment=$matches[1]&feed=$matches[2]";s:52:".?.+?/attachment/([^/]+)/(feed|rdf|rss|rss2|atom)/?$";s:49:"index.php?attachment=$matches[1]&feed=$matches[2]";s:52:".?.+?/attachment/([^/]+)/comment-page-([0-9]{1,})/?$";s:50:"index.php?attachment=$matches[1]&cpage=$matches[2]";s:20:"(.?.+?)/trackback/?$";s:35:"index.php?pagename=$matches[1]&tb=1";s:40:"(.?.+?)/feed/(feed|rdf|rss|rss2|atom)/?$";s:47:"index.php?pagename=$matches[1]&feed=$matches[2]";s:35:"(.?.+?)/(feed|rdf|rss|rss2|atom)/?$";s:47:"index.php?pagename=$matches[1]&feed=$matches[2]";s:28:"(.?.+?)/page/?([0-9]{1,})/?$";s:48:"index.php?pagename=$matches[1]&paged=$matches[2]";s:35:"(.?.+?)/comment-page-([0-9]{1,})/?$";s:48:"index.php?pagename=$matches[1]&cpage=$matches[2]";s:20:"(.?.+?)(/[0-9]+)?/?$";s:47:"index.php?pagename=$matches[1]&page=$matches[2]";}', 'yes'),
+(102, '_transient_is_multi_author', '0', 'yes'),
+(105, '_site_transient_timeout_theme_roots', '1426294754', 'yes'),
+(106, '_site_transient_theme_roots', 'a:6:{s:12:"twentyeleven";s:7:"/themes";s:13:"twentyfifteen";s:7:"/themes";s:14:"twentyfourteen";s:7:"/themes";s:9:"twentyten";s:7:"/themes";s:14:"twentythirteen";s:7:"/themes";s:12:"twentytwelve";s:7:"/themes";}', 'yes'),
+(108, '_site_transient_update_core', 'O:8:"stdClass":4:{s:7:"updates";a:2:{i:0;O:8:"stdClass":10:{s:8:"response";s:11:"development";s:8:"download";s:57:"https://wordpress.org/nightly-builds/wordpress-latest.zip";s:6:"locale";s:5:"en_US";s:8:"packages";O:8:"stdClass":5:{s:4:"full";s:57:"https://wordpress.org/nightly-builds/wordpress-latest.zip";s:10:"no_content";b:0;s:11:"new_bundled";b:0;s:7:"partial";b:0;s:8:"rollback";b:0;}s:7:"current";s:15:"4.2-beta1-31774";s:7:"version";s:15:"4.2-beta1-31774";s:11:"php_version";s:5:"5.2.4";s:13:"mysql_version";s:3:"5.0";s:11:"new_bundled";s:3:"4.1";s:15:"partial_version";s:0:"";}i:1;O:8:"stdClass":11:{s:8:"response";s:10:"autoupdate";s:8:"download";s:57:"https://wordpress.org/nightly-builds/wordpress-latest.zip";s:6:"locale";s:5:"en_US";s:8:"packages";O:8:"stdClass":5:{s:4:"full";s:57:"https://wordpress.org/nightly-builds/wordpress-latest.zip";s:10:"no_content";b:0;s:11:"new_bundled";b:0;s:7:"partial";b:0;s:8:"rollback";b:0;}s:7:"current";s:15:"4.2-beta1-31774";s:7:"version";s:15:"4.2-beta1-31774";s:11:"php_version";s:5:"5.2.4";s:13:"mysql_version";s:3:"5.0";s:11:"new_bundled";s:3:"4.1";s:15:"partial_version";s:0:"";s:9:"new_files";s:1:"1";}}s:12:"last_checked";i:1426292964;s:15:"version_checked";s:15:"4.2-beta1-31775";s:12:"translations";a:0:{}}', 'yes'),
+(109, '_site_transient_update_themes', 'O:8:"stdClass":4:{s:12:"last_checked";i:1426292968;s:7:"checked";a:6:{s:12:"twentyeleven";s:3:"2.0";s:13:"twentyfifteen";s:3:"1.0";s:14:"twentyfourteen";s:3:"1.3";s:9:"twentyten";s:3:"1.8";s:14:"twentythirteen";s:3:"1.4";s:12:"twentytwelve";s:3:"1.6";}s:8:"response";a:0:{}s:12:"translations";a:0:{}}', 'yes'),
+(110, '_site_transient_update_plugins', 'O:8:"stdClass":4:{s:12:"last_checked";i:1426292966;s:8:"response";a:0:{}s:12:"translations";a:0:{}s:9:"no_update";a:1:{s:9:"hello.php";O:8:"stdClass":6:{s:2:"id";s:4:"3564";s:4:"slug";s:11:"hello-dolly";s:6:"plugin";s:9:"hello.php";s:11:"new_version";s:3:"1.6";s:3:"url";s:42:"https://wordpress.org/plugins/hello-dolly/";s:7:"package";s:58:"https://downloads.wordpress.org/plugin/hello-dolly.1.6.zip";}}}', 'yes');
 
 -- --------------------------------------------------------
 
@@ -225,7 +221,7 @@ CREATE TABLE IF NOT EXISTS `{{ app_name }}_postmeta` (
   `meta_value` longtext,
   PRIMARY KEY (`meta_id`),
   KEY `post_id` (`post_id`),
-  KEY `meta_key` (`meta_key`)
+  KEY `meta_key` (`meta_key`(191))
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
@@ -266,18 +262,19 @@ CREATE TABLE IF NOT EXISTS `{{ app_name }}_posts` (
   `post_mime_type` varchar(100) NOT NULL DEFAULT '',
   `comment_count` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID`),
-  KEY `post_name` (`post_name`),
+  KEY `post_name` (`post_name`(191)),
   KEY `type_status_date` (`post_type`,`post_status`,`post_date`,`ID`),
   KEY `post_parent` (`post_parent`),
   KEY `post_author` (`post_author`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Vypisuji data pro tabulku `{{ app_name }}_posts`
 --
 
 INSERT INTO `{{ app_name }}_posts` (`ID`, `post_author`, `post_date`, `post_date_gmt`, `post_content`, `post_title`, `post_excerpt`, `post_status`, `comment_status`, `ping_status`, `post_password`, `post_name`, `to_ping`, `pinged`, `post_modified`, `post_modified_gmt`, `post_content_filtered`, `post_parent`, `guid`, `menu_order`, `post_type`, `post_mime_type`, `comment_count`) VALUES
-(1, 1, '2015-03-01 16:34:03', '2015-03-01 16:34:03', 'Welcome to WordPress. This is your first post. Edit or delete it, then start blogging!', 'Hello world!', '', 'publish', 'open', 'open', '', 'hello-world', '', '', '2015-03-01 16:34:03', '2015-03-01 16:34:03', '', 0, 'http://wordpress-salt.robotice.cz/?p=1', 0, 'post', '', 1);
+(1, 1, '2015-03-14 00:29:05', '2015-03-14 00:29:05', 'Welcome to WordPress. This is your first post. Edit or delete it, then start blogging!', 'Hello world!', '', 'publish', 'open', 'open', '', 'hello-world', '', '', '2015-03-14 00:29:05', '2015-03-14 00:29:05', '', 0, 'http://wordpress-salt.robotice.cz/?p=1', 0, 'post', '', 1),
+(2, 1, '2015-03-14 00:29:05', '2015-03-14 00:29:05', 'This is an example page. It''s different from a blog post because it will stay in one place and will show up in your site navigation (in most themes). Most people start with an About page that introduces them to potential site visitors. It might say something like this:\n\n<blockquote>Hi there! I''m a bike messenger by day, aspiring actor by night, and this is my blog. I live in Los Angeles, have a great dog named Jack, and I like pi&#241;a coladas. (And gettin'' caught in the rain.)</blockquote>\n\n...or something like this:\n\n<blockquote>The XYZ Doohickey Company was founded in 1971, and has been providing quality doohickeys to the public ever since. Located in Gotham City, XYZ employs over 2,000 people and does all kinds of awesome things for the Gotham community.</blockquote>\n\nAs a new WordPress user, you should go to <a href="http://wordpress-salt.robotice.cz/wp-admin/">your dashboard</a> to delete this page and create new pages for your content. Have fun!', 'Sample Page', '', 'publish', 'open', 'open', '', 'sample-page', '', '', '2015-03-14 00:29:05', '2015-03-14 00:29:05', '', 0, 'http://wordpress-salt.robotice.cz/?page_id=2', 0, 'page', '', 0);
 
 -- --------------------------------------------------------
 
@@ -291,8 +288,8 @@ CREATE TABLE IF NOT EXISTS `{{ app_name }}_terms` (
   `slug` varchar(200) NOT NULL DEFAULT '',
   `term_group` bigint(10) NOT NULL DEFAULT '0',
   PRIMARY KEY (`term_id`),
-  KEY `slug` (`slug`),
-  KEY `name` (`name`)
+  KEY `slug` (`slug`(191)),
+  KEY `name` (`name`(191))
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
@@ -361,8 +358,8 @@ CREATE TABLE IF NOT EXISTS `{{ app_name }}_usermeta` (
   `meta_value` longtext,
   PRIMARY KEY (`umeta_id`),
   KEY `user_id` (`user_id`),
-  KEY `meta_key` (`meta_key`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
+  KEY `meta_key` (`meta_key`(191))
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
 
 --
 -- Vypisuji data pro tabulku `{{ app_name }}_usermeta`
@@ -381,9 +378,7 @@ INSERT INTO `{{ app_name }}_usermeta` (`umeta_id`, `user_id`, `meta_key`, `meta_
 (10, 1, '{{ app_name }}_capabilities', 'a:1:{s:13:"administrator";b:1;}'),
 (11, 1, '{{ app_name }}_user_level', '10'),
 (12, 1, 'dismissed_wp_pointers', 'wp360_locks,wp390_widgets'),
-(13, 1, 'show_welcome_panel', '1'),
-(14, 1, 'session_tokens', 'a:1:{s:64:"75389bc85a7d5a3fd38f1e307275c0347f929100d223834ed687ee5b1162d5b5";a:4:{s:10:"expiration";i:1425400455;s:2:"ip";s:3:"::1";s:2:"ua";s:109:"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.115 Safari/537.36";s:5:"login";i:1425227655;}}'),
-(15, 1, '{{ app_name }}_dashboard_quick_press_last_post_id', '5');
+(13, 1, 'show_welcome_panel', '1');
 
 -- --------------------------------------------------------
 
@@ -412,7 +407,7 @@ CREATE TABLE IF NOT EXISTS `{{ app_name }}_users` (
 --
 
 INSERT INTO `{{ app_name }}_users` (`ID`, `user_login`, `user_pass`, `user_nicename`, `user_email`, `user_url`, `user_registered`, `user_activation_key`, `user_status`, `display_name`) VALUES
-(1, 'Del_S', '$P$BHP8ucZ4kApqgN6bf.bJ2clPNu77Ac0', 'del_s', 'david@sucharda.cz', '', '2015-03-01 16:34:03', '', 0, 'Del_S');
+(1, 'Del_S', '$P$BR1cVH4XzuU/srh.MpPrdcVf8b/X50/', 'del_s', 'david@sucharda.cz', '', '2015-03-14 00:29:05', '', 0, 'Del_S');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
