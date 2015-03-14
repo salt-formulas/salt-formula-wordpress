@@ -1,6 +1,23 @@
 {%- set app = salt['pillar.get']('wordpress:server:app:'+app_name) %}
 
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
 USE {{ app.database.name }};
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Databáze: `bc`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabulky `{{ app_name }}_commentmeta`
+--
 
 CREATE TABLE IF NOT EXISTS `{{ app_name }}_commentmeta` (
   `meta_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -11,6 +28,12 @@ CREATE TABLE IF NOT EXISTS `{{ app_name }}_commentmeta` (
   KEY `comment_id` (`comment_id`),
   KEY `meta_key` (`meta_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabulky `{{ app_name }}_comments`
+--
 
 CREATE TABLE IF NOT EXISTS `{{ app_name }}_comments` (
   `comment_ID` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -36,6 +59,12 @@ CREATE TABLE IF NOT EXISTS `{{ app_name }}_comments` (
   KEY `comment_author_email` (`comment_author_email`(10))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
+
+--
+-- Struktura tabulky `{{ app_name }}_links`
+--
+
 CREATE TABLE IF NOT EXISTS `{{ app_name }}_links` (
   `link_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `link_url` varchar(255) NOT NULL DEFAULT '',
@@ -54,6 +83,12 @@ CREATE TABLE IF NOT EXISTS `{{ app_name }}_links` (
   KEY `link_visible` (`link_visible`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
+
+--
+-- Struktura tabulky `{{ app_name }}_options`
+--
+
 CREATE TABLE IF NOT EXISTS `{{ app_name }}_options` (
   `option_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `option_name` varchar(64) NOT NULL DEFAULT '',
@@ -63,9 +98,13 @@ CREATE TABLE IF NOT EXISTS `{{ app_name }}_options` (
   UNIQUE KEY `option_name` (`option_name`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=111 ;
 
+--
+-- Vypisuji data pro tabulku `{{ app_name }}_options`
+--
+
 INSERT INTO `{{ app_name }}_options` (`option_id`, `option_name`, `option_value`, `autoload`) VALUES
-(1, 'siteurl', 'http://wordpress-salt.robotice.cz/', 'yes'),
-(2, 'home', 'http://wordpress-salt.robotice.cz/', 'yes'),
+(1, 'siteurl', 'http://wordpress-salt.robotice.cz', 'yes'),
+(2, 'home', 'http://wordpress-salt.robotice.cz', 'yes'),
 (3, 'blogname', 'New web page.', 'yes'),
 (4, 'blogdescription', 'Just another WordPress site', 'yes'),
 (5, 'users_can_register', '0', 'yes'),
@@ -152,7 +191,7 @@ INSERT INTO `{{ app_name }}_options` (`option_id`, `option_name`, `option_value`
 (86, 'default_post_format', '0', 'yes'),
 (87, 'link_manager_enabled', '0', 'yes'),
 (88, 'initial_db_version', '30133', 'yes'),
-(89, 'wp_ds15bc_user_roles', 'a:5:{s:13:"administrator";a:2:{s:4:"name";s:13:"Administrator";s:12:"capabilities";a:62:{s:13:"switch_themes";b:1;s:11:"edit_themes";b:1;s:16:"activate_plugins";b:1;s:12:"edit_plugins";b:1;s:10:"edit_users";b:1;s:10:"edit_files";b:1;s:14:"manage_options";b:1;s:17:"moderate_comments";b:1;s:17:"manage_categories";b:1;s:12:"manage_links";b:1;s:12:"upload_files";b:1;s:6:"import";b:1;s:15:"unfiltered_html";b:1;s:10:"edit_posts";b:1;s:17:"edit_others_posts";b:1;s:20:"edit_published_posts";b:1;s:13:"publish_posts";b:1;s:10:"edit_pages";b:1;s:4:"read";b:1;s:8:"level_10";b:1;s:7:"level_9";b:1;s:7:"level_8";b:1;s:7:"level_7";b:1;s:7:"level_6";b:1;s:7:"level_5";b:1;s:7:"level_4";b:1;s:7:"level_3";b:1;s:7:"level_2";b:1;s:7:"level_1";b:1;s:7:"level_0";b:1;s:17:"edit_others_pages";b:1;s:20:"edit_published_pages";b:1;s:13:"publish_pages";b:1;s:12:"delete_pages";b:1;s:19:"delete_others_pages";b:1;s:22:"delete_published_pages";b:1;s:12:"delete_posts";b:1;s:19:"delete_others_posts";b:1;s:22:"delete_published_posts";b:1;s:20:"delete_private_posts";b:1;s:18:"edit_private_posts";b:1;s:18:"read_private_posts";b:1;s:20:"delete_private_pages";b:1;s:18:"edit_private_pages";b:1;s:18:"read_private_pages";b:1;s:12:"delete_users";b:1;s:12:"create_users";b:1;s:17:"unfiltered_upload";b:1;s:14:"edit_dashboard";b:1;s:14:"update_plugins";b:1;s:14:"delete_plugins";b:1;s:15:"install_plugins";b:1;s:13:"update_themes";b:1;s:14:"install_themes";b:1;s:11:"update_core";b:1;s:10:"list_users";b:1;s:12:"remove_users";b:1;s:9:"add_users";b:1;s:13:"promote_users";b:1;s:18:"edit_theme_options";b:1;s:13:"delete_themes";b:1;s:6:"export";b:1;}}s:6:"editor";a:2:{s:4:"name";s:6:"Editor";s:12:"capabilities";a:34:{s:17:"moderate_comments";b:1;s:17:"manage_categories";b:1;s:12:"manage_links";b:1;s:12:"upload_files";b:1;s:15:"unfiltered_html";b:1;s:10:"edit_posts";b:1;s:17:"edit_others_posts";b:1;s:20:"edit_published_posts";b:1;s:13:"publish_posts";b:1;s:10:"edit_pages";b:1;s:4:"read";b:1;s:7:"level_7";b:1;s:7:"level_6";b:1;s:7:"level_5";b:1;s:7:"level_4";b:1;s:7:"level_3";b:1;s:7:"level_2";b:1;s:7:"level_1";b:1;s:7:"level_0";b:1;s:17:"edit_others_pages";b:1;s:20:"edit_published_pages";b:1;s:13:"publish_pages";b:1;s:12:"delete_pages";b:1;s:19:"delete_others_pages";b:1;s:22:"delete_published_pages";b:1;s:12:"delete_posts";b:1;s:19:"delete_others_posts";b:1;s:22:"delete_published_posts";b:1;s:20:"delete_private_posts";b:1;s:18:"edit_private_posts";b:1;s:18:"read_private_posts";b:1;s:20:"delete_private_pages";b:1;s:18:"edit_private_pages";b:1;s:18:"read_private_pages";b:1;}}s:6:"author";a:2:{s:4:"name";s:6:"Author";s:12:"capabilities";a:10:{s:12:"upload_files";b:1;s:10:"edit_posts";b:1;s:20:"edit_published_posts";b:1;s:13:"publish_posts";b:1;s:4:"read";b:1;s:7:"level_2";b:1;s:7:"level_1";b:1;s:7:"level_0";b:1;s:12:"delete_posts";b:1;s:22:"delete_published_posts";b:1;}}s:11:"contributor";a:2:{s:4:"name";s:11:"Contributor";s:12:"capabilities";a:5:{s:10:"edit_posts";b:1;s:4:"read";b:1;s:7:"level_1";b:1;s:7:"level_0";b:1;s:12:"delete_posts";b:1;}}s:10:"subscriber";a:2:{s:4:"name";s:10:"Subscriber";s:12:"capabilities";a:2:{s:4:"read";b:1;s:7:"level_0";b:1;}}}', 'yes'),
+(89, '{{ app_name }}_user_roles', 'a:5:{s:13:"administrator";a:2:{s:4:"name";s:13:"Administrator";s:12:"capabilities";a:62:{s:13:"switch_themes";b:1;s:11:"edit_themes";b:1;s:16:"activate_plugins";b:1;s:12:"edit_plugins";b:1;s:10:"edit_users";b:1;s:10:"edit_files";b:1;s:14:"manage_options";b:1;s:17:"moderate_comments";b:1;s:17:"manage_categories";b:1;s:12:"manage_links";b:1;s:12:"upload_files";b:1;s:6:"import";b:1;s:15:"unfiltered_html";b:1;s:10:"edit_posts";b:1;s:17:"edit_others_posts";b:1;s:20:"edit_published_posts";b:1;s:13:"publish_posts";b:1;s:10:"edit_pages";b:1;s:4:"read";b:1;s:8:"level_10";b:1;s:7:"level_9";b:1;s:7:"level_8";b:1;s:7:"level_7";b:1;s:7:"level_6";b:1;s:7:"level_5";b:1;s:7:"level_4";b:1;s:7:"level_3";b:1;s:7:"level_2";b:1;s:7:"level_1";b:1;s:7:"level_0";b:1;s:17:"edit_others_pages";b:1;s:20:"edit_published_pages";b:1;s:13:"publish_pages";b:1;s:12:"delete_pages";b:1;s:19:"delete_others_pages";b:1;s:22:"delete_published_pages";b:1;s:12:"delete_posts";b:1;s:19:"delete_others_posts";b:1;s:22:"delete_published_posts";b:1;s:20:"delete_private_posts";b:1;s:18:"edit_private_posts";b:1;s:18:"read_private_posts";b:1;s:20:"delete_private_pages";b:1;s:18:"edit_private_pages";b:1;s:18:"read_private_pages";b:1;s:12:"delete_users";b:1;s:12:"create_users";b:1;s:17:"unfiltered_upload";b:1;s:14:"edit_dashboard";b:1;s:14:"update_plugins";b:1;s:14:"delete_plugins";b:1;s:15:"install_plugins";b:1;s:13:"update_themes";b:1;s:14:"install_themes";b:1;s:11:"update_core";b:1;s:10:"list_users";b:1;s:12:"remove_users";b:1;s:9:"add_users";b:1;s:13:"promote_users";b:1;s:18:"edit_theme_options";b:1;s:13:"delete_themes";b:1;s:6:"export";b:1;}}s:6:"editor";a:2:{s:4:"name";s:6:"Editor";s:12:"capabilities";a:34:{s:17:"moderate_comments";b:1;s:17:"manage_categories";b:1;s:12:"manage_links";b:1;s:12:"upload_files";b:1;s:15:"unfiltered_html";b:1;s:10:"edit_posts";b:1;s:17:"edit_others_posts";b:1;s:20:"edit_published_posts";b:1;s:13:"publish_posts";b:1;s:10:"edit_pages";b:1;s:4:"read";b:1;s:7:"level_7";b:1;s:7:"level_6";b:1;s:7:"level_5";b:1;s:7:"level_4";b:1;s:7:"level_3";b:1;s:7:"level_2";b:1;s:7:"level_1";b:1;s:7:"level_0";b:1;s:17:"edit_others_pages";b:1;s:20:"edit_published_pages";b:1;s:13:"publish_pages";b:1;s:12:"delete_pages";b:1;s:19:"delete_others_pages";b:1;s:22:"delete_published_pages";b:1;s:12:"delete_posts";b:1;s:19:"delete_others_posts";b:1;s:22:"delete_published_posts";b:1;s:20:"delete_private_posts";b:1;s:18:"edit_private_posts";b:1;s:18:"read_private_posts";b:1;s:20:"delete_private_pages";b:1;s:18:"edit_private_pages";b:1;s:18:"read_private_pages";b:1;}}s:6:"author";a:2:{s:4:"name";s:6:"Author";s:12:"capabilities";a:10:{s:12:"upload_files";b:1;s:10:"edit_posts";b:1;s:20:"edit_published_posts";b:1;s:13:"publish_posts";b:1;s:4:"read";b:1;s:7:"level_2";b:1;s:7:"level_1";b:1;s:7:"level_0";b:1;s:12:"delete_posts";b:1;s:22:"delete_published_posts";b:1;}}s:11:"contributor";a:2:{s:4:"name";s:11:"Contributor";s:12:"capabilities";a:5:{s:10:"edit_posts";b:1;s:4:"read";b:1;s:7:"level_1";b:1;s:7:"level_0";b:1;s:12:"delete_posts";b:1;}}s:10:"subscriber";a:2:{s:4:"name";s:10:"Subscriber";s:12:"capabilities";a:2:{s:4:"read";b:1;s:7:"level_0";b:1;}}}', 'yes'),
 (90, 'widget_search', 'a:2:{i:2;a:1:{s:5:"title";s:0:"";}s:12:"_multiwidget";i:1;}', 'yes'),
 (91, 'widget_recent-posts', 'a:2:{i:2;a:2:{s:5:"title";s:0:"";s:6:"number";i:5;}s:12:"_multiwidget";i:1;}', 'yes'),
 (92, 'widget_recent-comments', 'a:2:{i:2;a:2:{s:5:"title";s:0:"";s:6:"number";i:5;}s:12:"_multiwidget";i:1;}', 'yes'),
@@ -173,6 +212,12 @@ INSERT INTO `{{ app_name }}_options` (`option_id`, `option_name`, `option_value`
 (109, 'can_compress_scripts', '1', 'yes'),
 (110, 'recently_activated', 'a:0:{}', 'yes');
 
+-- --------------------------------------------------------
+
+--
+-- Struktura tabulky `{{ app_name }}_postmeta`
+--
+
 CREATE TABLE IF NOT EXISTS `{{ app_name }}_postmeta` (
   `meta_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `post_id` bigint(20) unsigned NOT NULL DEFAULT '0',
@@ -183,8 +228,18 @@ CREATE TABLE IF NOT EXISTS `{{ app_name }}_postmeta` (
   KEY `meta_key` (`meta_key`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
+--
+-- Vypisuji data pro tabulku `{{ app_name }}_postmeta`
+--
+
 INSERT INTO `{{ app_name }}_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUES
 (1, 2, '_wp_page_template', 'default');
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabulky `{{ app_name }}_posts`
+--
 
 CREATE TABLE IF NOT EXISTS `{{ app_name }}_posts` (
   `ID` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -217,8 +272,18 @@ CREATE TABLE IF NOT EXISTS `{{ app_name }}_posts` (
   KEY `post_author` (`post_author`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
+--
+-- Vypisuji data pro tabulku `{{ app_name }}_posts`
+--
+
 INSERT INTO `{{ app_name }}_posts` (`ID`, `post_author`, `post_date`, `post_date_gmt`, `post_content`, `post_title`, `post_excerpt`, `post_status`, `comment_status`, `ping_status`, `post_password`, `post_name`, `to_ping`, `pinged`, `post_modified`, `post_modified_gmt`, `post_content_filtered`, `post_parent`, `guid`, `menu_order`, `post_type`, `post_mime_type`, `comment_count`) VALUES
 (1, 1, '2015-03-01 16:34:03', '2015-03-01 16:34:03', 'Welcome to WordPress. This is your first post. Edit or delete it, then start blogging!', 'Hello world!', '', 'publish', 'open', 'open', '', 'hello-world', '', '', '2015-03-01 16:34:03', '2015-03-01 16:34:03', '', 0, 'http://wordpress-salt.robotice.cz/?p=1', 0, 'post', '', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabulky `{{ app_name }}_terms`
+--
 
 CREATE TABLE IF NOT EXISTS `{{ app_name }}_terms` (
   `term_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -230,9 +295,18 @@ CREATE TABLE IF NOT EXISTS `{{ app_name }}_terms` (
   KEY `name` (`name`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
+--
+-- Vypisuji data pro tabulku `{{ app_name }}_terms`
+--
+
 INSERT INTO `{{ app_name }}_terms` (`term_id`, `name`, `slug`, `term_group`) VALUES
 (1, 'Uncategorized', 'uncategorized', 0);
 
+-- --------------------------------------------------------
+
+--
+-- Struktura tabulky `{{ app_name }}_term_relationships`
+--
 
 CREATE TABLE IF NOT EXISTS `{{ app_name }}_term_relationships` (
   `object_id` bigint(20) unsigned NOT NULL DEFAULT '0',
@@ -242,8 +316,18 @@ CREATE TABLE IF NOT EXISTS `{{ app_name }}_term_relationships` (
   KEY `term_taxonomy_id` (`term_taxonomy_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Vypisuji data pro tabulku `{{ app_name }}_term_relationships`
+--
+
 INSERT INTO `{{ app_name }}_term_relationships` (`object_id`, `term_taxonomy_id`, `term_order`) VALUES
 (1, 1, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabulky `{{ app_name }}_term_taxonomy`
+--
 
 CREATE TABLE IF NOT EXISTS `{{ app_name }}_term_taxonomy` (
   `term_taxonomy_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -257,8 +341,18 @@ CREATE TABLE IF NOT EXISTS `{{ app_name }}_term_taxonomy` (
   KEY `taxonomy` (`taxonomy`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
+--
+-- Vypisuji data pro tabulku `{{ app_name }}_term_taxonomy`
+--
+
 INSERT INTO `{{ app_name }}_term_taxonomy` (`term_taxonomy_id`, `term_id`, `taxonomy`, `description`, `parent`, `count`) VALUES
 (1, 1, 'category', '', 0, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabulky `{{ app_name }}_usermeta`
+--
 
 CREATE TABLE IF NOT EXISTS `{{ app_name }}_usermeta` (
   `umeta_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -270,6 +364,10 @@ CREATE TABLE IF NOT EXISTS `{{ app_name }}_usermeta` (
   KEY `meta_key` (`meta_key`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
 
+--
+-- Vypisuji data pro tabulku `{{ app_name }}_usermeta`
+--
+
 INSERT INTO `{{ app_name }}_usermeta` (`umeta_id`, `user_id`, `meta_key`, `meta_value`) VALUES
 (1, 1, 'nickname', 'Del_S'),
 (2, 1, 'first_name', ''),
@@ -280,12 +378,18 @@ INSERT INTO `{{ app_name }}_usermeta` (`umeta_id`, `user_id`, `meta_key`, `meta_
 (7, 1, 'admin_color', 'fresh'),
 (8, 1, 'use_ssl', '0'),
 (9, 1, 'show_admin_bar_front', 'true'),
-(10, 1, 'wp_ds15bc_capabilities', 'a:1:{s:13:"administrator";b:1;}'),
-(11, 1, 'wp_ds15bc_user_level', '10'),
+(10, 1, '{{ app_name }}_capabilities', 'a:1:{s:13:"administrator";b:1;}'),
+(11, 1, '{{ app_name }}_user_level', '10'),
 (12, 1, 'dismissed_wp_pointers', 'wp360_locks,wp390_widgets'),
 (13, 1, 'show_welcome_panel', '1'),
 (14, 1, 'session_tokens', 'a:1:{s:64:"75389bc85a7d5a3fd38f1e307275c0347f929100d223834ed687ee5b1162d5b5";a:4:{s:10:"expiration";i:1425400455;s:2:"ip";s:3:"::1";s:2:"ua";s:109:"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.115 Safari/537.36";s:5:"login";i:1425227655;}}'),
-(15, 1, 'wp_ds15bc_dashboard_quick_press_last_post_id', '5');
+(15, 1, '{{ app_name }}_dashboard_quick_press_last_post_id', '5');
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabulky `{{ app_name }}_users`
+--
 
 CREATE TABLE IF NOT EXISTS `{{ app_name }}_users` (
   `ID` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -303,5 +407,13 @@ CREATE TABLE IF NOT EXISTS `{{ app_name }}_users` (
   KEY `user_nicename` (`user_nicename`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
+--
+-- Vypisuji data pro tabulku `{{ app_name }}_users`
+--
+
 INSERT INTO `{{ app_name }}_users` (`ID`, `user_login`, `user_pass`, `user_nicename`, `user_email`, `user_url`, `user_registered`, `user_activation_key`, `user_status`, `display_name`) VALUES
 (1, 'Del_S', '$P$BHP8ucZ4kApqgN6bf.bJ2clPNu77Ac0', 'del_s', 'david@sucharda.cz', '', '2015-03-01 16:34:03', '', 0, 'Del_S');
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
