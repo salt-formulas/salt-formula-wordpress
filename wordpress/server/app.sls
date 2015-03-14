@@ -50,6 +50,18 @@ wordpress_{{ app_name }}_git:
     - git: wordpress_{{ app_name }}_git
   - defaults:
     app_name: "{{ app_name }}"
+    
+install_wpcli:
+  cmd.script:
+    - source: salt://wordpress/files/wpcli-install.sh
+    - cwd: /home/ubuntu/
+    - user: ubuntu
+    
+testplugin_install:
+  cmd.run:
+    - name: wp plugin install {{ app.plugins.name }} --allow-root
+    - cwd: /srv/wordpress/sites/devel/root/
+    - user: root
 
 {%- endfor %}
 
@@ -66,11 +78,5 @@ wordpress_{{ app_name }}_git:
   - group: root
   - mode: 700
   - makedirs: true
-  
-install_wpcli:
-  cmd.script:
-    - source: salt://wordpress/files/wpcli-install.sh
-    - cwd: /home/ubuntu/
-    - user: ubuntu
 
 {%- endif %}
