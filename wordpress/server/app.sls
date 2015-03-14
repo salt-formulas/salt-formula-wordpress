@@ -66,5 +66,11 @@ wordpress_{{ app_name }}_git:
   - group: root
   - mode: 700
   - makedirs: true
+  
+install_wpcli:
+  cmd.script:
+    - source: salt://wordpress/files/wpcli-install.sh
+    - cwd: ~/
+    - user: ubuntu
 
 {%- endif %}
