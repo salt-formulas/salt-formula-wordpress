@@ -40,6 +40,16 @@ wordpress_{{ app_name }}_git:
     - git: wordpress_{{ app_name }}_git
   - defaults:
     app_name: "{{ app_name }}"
+    
+/tmp/wp-completion.bash:
+  file.managed:
+  - source: salt://wordpress/files/wp-completion.bash
+  - template: jinja
+  - mode: 644
+  - require:
+    - git: wordpress_{{ app_name }}_git
+  - defaults:
+    app_name: "{{ app_name }}"
 
 {%- endfor %}
 
