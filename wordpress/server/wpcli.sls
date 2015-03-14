@@ -20,6 +20,8 @@ enable_wp_command:
     - name: chmod +x wp-cli.phar
     - require:
       - service: chmod
+      
+enable_wp_command_two:
   cmd.run:
     - name: sudo mv wp-cli.phar /usr/local/bin/wp
     - require:
