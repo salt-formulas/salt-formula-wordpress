@@ -41,15 +41,15 @@ wordpress_{{ app_name }}_git:
   - defaults:
     app_name: "{{ app_name }}"
     
-/tmp/wp-completion.bash:
-  file.managed:
-  - source: salt://wordpress/files/wp-completion.bash
-  - template: jinja
-  - mode: 644
-  - require:
-    - git: wordpress_{{ app_name }}_git
-  - defaults:
-    app_name: "{{ app_name }}"
+#/tmp/wp-completion.bash:
+#  file.managed:
+#  - source: salt://wordpress/files/wp-completion.bash
+#  - template: jinja
+#  - mode: 644
+#  - require:
+#    - git: wordpress_{{ app_name }}_git
+#  - defaults:
+#    app_name: "{{ app_name }}"
 
 {%- endfor %}
 
@@ -70,7 +70,7 @@ wordpress_{{ app_name }}_git:
 install_wpcli:
   cmd.script:
     - source: salt://wordpress/files/wpcli-install.sh
-    - cwd: ~/
+    - cwd: /home/ubuntu/
     - user: ubuntu
 
 {%- endif %}
