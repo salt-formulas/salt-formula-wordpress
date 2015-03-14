@@ -64,8 +64,8 @@ CREATE TABLE IF NOT EXISTS `{{ app_name }}_options` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=111 ;
 
 INSERT INTO `{{ app_name }}_options` (`option_id`, `option_name`, `option_value`, `autoload`) VALUES
-(1, 'siteurl', 'http://localhost/bc', 'yes'),
-(2, 'home', 'http://localhost/bc', 'yes'),
+(1, 'siteurl', 'http://wordpress-salt.robotice.cz/', 'yes'),
+(2, 'home', 'http://wordpress-salt.robotice.cz/', 'yes'),
 (3, 'blogname', 'New web page.', 'yes'),
 (4, 'blogdescription', 'Just another WordPress site', 'yes'),
 (5, 'users_can_register', '0', 'yes'),
@@ -218,7 +218,7 @@ CREATE TABLE IF NOT EXISTS `{{ app_name }}_posts` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 INSERT INTO `{{ app_name }}_posts` (`ID`, `post_author`, `post_date`, `post_date_gmt`, `post_content`, `post_title`, `post_excerpt`, `post_status`, `comment_status`, `ping_status`, `post_password`, `post_name`, `to_ping`, `pinged`, `post_modified`, `post_modified_gmt`, `post_content_filtered`, `post_parent`, `guid`, `menu_order`, `post_type`, `post_mime_type`, `comment_count`) VALUES
-(1, 1, '2015-03-01 16:34:03', '2015-03-01 16:34:03', 'Welcome to WordPress. This is your first post. Edit or delete it, then start blogging!', 'Hello world!', '', 'publish', 'open', 'open', '', 'hello-world', '', '', '2015-03-01 16:34:03', '2015-03-01 16:34:03', '', 0, 'http://localhost/bc/?p=1', 0, 'post', '', 1);
+(1, 1, '2015-03-01 16:34:03', '2015-03-01 16:34:03', 'Welcome to WordPress. This is your first post. Edit or delete it, then start blogging!', 'Hello world!', '', 'publish', 'open', 'open', '', 'hello-world', '', '', '2015-03-01 16:34:03', '2015-03-01 16:34:03', '', 0, 'http://wordpress-salt.robotice.cz/?p=1', 0, 'post', '', 1);
 
 CREATE TABLE IF NOT EXISTS `{{ app_name }}_terms` (
   `term_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
