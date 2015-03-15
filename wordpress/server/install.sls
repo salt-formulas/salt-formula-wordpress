@@ -21,7 +21,7 @@ test_onlyif:
     - cwd: /srv/wordpress/sites/devel/root/
     - user: root
     - onlyif:
-       - wp core is-intalled --allow-root
+       - cat /etc/
     
 #TODO - replace deprecated DB install with WP-CLI install
 #TODO - test multiple plugin install (for) and enable them. 
