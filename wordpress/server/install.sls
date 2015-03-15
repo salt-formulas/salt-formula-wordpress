@@ -9,7 +9,7 @@ include:
 # Install wp - if not installed (need to check if WP-CLI is installed)
 wp_install:
   cmd.run:
-    - name: wp core install --url={{ app.core-install.url }} --title={{ app.core-install.title }} --admin_user={{ app.core-install.admin-user }} --admin_password={{ app.core-install.admin-password }} --admin_email={{ app.core-install.admin-email }} --allow-root
+    - name: wp core install --url={{ app.core-install.url }} --title={{ app.core-install.title }} --admin_user={{ app.core-install.admin_user }} --admin_password={{ app.core-install.admin_password }} --admin_email={{ app.core-install.admin_email }} --allow-root
     - cwd: /srv/wordpress/sites/devel/root/
     - user: root
     - onlyif:
