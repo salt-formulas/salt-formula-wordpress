@@ -14,6 +14,14 @@ wp_install:
     - user: root
     - onlyif:
        - wp core is-intalled --allow-root
+       
+test_onlyif:
+  cmd.run:
+    - name: wp core is-installed --allow-root
+    - cwd: /srv/wordpress/sites/devel/root/
+    - user: root
+    - onlyif:
+       - wp core is-intalled --allow-root
     
 #TODO - replace deprecated DB install with WP-CLI install
 #TODO - test multiple plugin install (for) and enable them. 
