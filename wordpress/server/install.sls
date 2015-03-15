@@ -12,16 +12,14 @@ wp_install:
     - name: wp core install --url={{ app.core_install.url }} --title={{ app.core_install.title }} --admin_user={{ app.core_install.admin_user }} --admin_password={{ app.core_install.admin_password }} --admin_email={{ app.core_install.admin_email }} --allow-root
     - cwd: /srv/wordpress/sites/devel/root/
     - user: root
-    - onlyif:
-       - wp core is-intalled --allow-root
+    - onlyif: wp core is-intalled --allow-root
        
 test_onlyif:
   cmd.run:
     - name: wp core is-installed --allow-root
     - cwd: /srv/wordpress/sites/devel/root/
     - user: root
-    - onlyif:
-       - cat /etc/
+    - onlyif: cat /etc/
     
 #TODO - replace deprecated DB install with WP-CLI install
 #TODO - test multiple plugin install (for) and enable them. 
