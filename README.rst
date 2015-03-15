@@ -24,6 +24,12 @@ Sample pillars
               password: '${_param:mysql_wordpress_site01_password}'
               user: 'w_devel'
               prefix: 'devel'
+            core-install:
+              url: '${_param:apache_wordpress_url}'
+              title: 'Wordpress Title'
+              admin-user: 'AdminLoginName'
+              admin-password: 'AdminPassword'
+              admin-email: 'admin@email.cz'
             plugin:
               pluginname01:
                 version: 23.03

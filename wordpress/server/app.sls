@@ -6,6 +6,7 @@ include:
 
 {%- for app_name, app in server.app.iteritems() %}
 
+# Creating directory for web
 /srv/wordpress/sites/{{ app_name }}:
   file.directory:
   - user: www-data
@@ -13,6 +14,7 @@ include:
   - mode: 770
   - makedirs: true
 
+# Downloading WP to directory
 wordpress_{{ app_name }}_git:
   git.latest:
   - name: {{ server.git_source }}
@@ -21,6 +23,7 @@ wordpress_{{ app_name }}_git:
   - require:
     - pkg: git_packages
 
+# Copiing config file to directory with WP
 /srv/wordpress/sites/{{ app_name }}/root/wp-config.php:
   file.managed:
   - source: salt://wordpress/files/wp-config.php
@@ -31,16 +34,18 @@ wordpress_{{ app_name }}_git:
   - defaults:
     app_name: "{{ app_name }}"
 
-/tmp/init.mysql:
-  file.managed:
-  - source: salt://wordpress/files/init.sql
-  - template: jinja
-  - mode: 644
-  - require:
-    - git: wordpress_{{ app_name }}_git
-  - defaults:
-    app_name: "{{ app_name }}"
+# (Deprecated) Moving .sql file for creating database.
+#/tmp/init.mysql:
+#  file.managed:
+#  - source: salt://wordpress/files/init.sql
+#  - template: jinja
+#  - mode: 644
+#  - require:
+#    - git: wordpress_{{ app_name }}_git
+#  - defaults:
+#    app_name: "{{ app_name }}"
     
+# Moving Tab completion script to temp dir.
 /tmp/wpcli-tab.sh:
   file.managed:
   - source: salt://wordpress/files/wpcli-tab.sh
@@ -50,18 +55,6 @@ wordpress_{{ app_name }}_git:
     - git: wordpress_{{ app_name }}_git
   - defaults:
     app_name: "{{ app_name }}"
-    
-install_wpcli:
-  cmd.script:
-    - source: salt://wordpress/files/wpcli-install.sh
-    - cwd: /home/ubuntu/
-    - user: ubuntu
-    
-testplugin_install:
-  cmd.run:
-    - name: wp plugin install {{ app.plugins.name }} --allow-root
-    - cwd: /srv/wordpress/sites/devel/root/
-    - user: root
 
 {%- endfor %}
 
