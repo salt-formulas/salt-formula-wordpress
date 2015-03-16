@@ -30,7 +30,7 @@ Sample pillars
               admin-user: 'AdminLoginName'
               admin-password: 'AdminPassword'
               admin-email: 'admin@email.cz'
-            update:
+            do_update:
               core_update: true
               theme_update: true
             plugin:

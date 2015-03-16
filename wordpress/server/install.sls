@@ -1,61 +1,93 @@
 {%- from "wordpress/map.jinja" import server with context %}
 {%- if server.enabled %}
 
+include
+- git
+
 {%- for app_name, app in server.app.iteritems() %}
 
- {%- if salt['cmd.run']('wp cli version --allow-root') != 1 %}
+  {%- if salt['cmd.run']('wp cli version --allow-root') != 1 %}
 
-  {%- set web_path='/srv/wordpress/sites/'+app_name+'/root/' %}
-  
-  echo_path:
-    cmd.run:
-      - name: echo {{ web_path }}
+    {%- set web_path='/srv/wordpress/sites/'+app_name+'/root/' %}
     
-  {%- if salt['cmd.run']('wp core is-installed --path="{{ web_path }}" --allow-root') %}
+    {%- if salt['cmd.run']('wp core is-installed --path="{{ web_path }}" --allow-root') == 1 %}
 
-  wp_install:
-    cmd.run:
-      - name: wp core install --url='{{ app.core_install.url }}' --title='{{ app.core_install.title }}' --admin_user='{{ app.core_install.admin_user }}' --admin_password='{{ app.core_install.admin_password }}' --admin_email='{{ app.core_install.admin_email }}' --allow-root
-      - cwd: {{ web_path }}
-      - user: root
+      wp_install:
+        cmd.run:
+          - name: wp core install --url='{{ app.core_install.url }}' --title='{{ app.core_install.title }}' --admin_user='{{ app.core_install.admin_user }}' --admin_password='{{ app.core_install.admin_password }}' --admin_email='{{ app.core_install.admin_email }}' --allow-root
+          - cwd: {{ web_path }}
+          - user: root
     
-  {%- endif %}
+    {%- endif %}
   
-  {%- if app.do_update.core_update %}
+    {%- if app.do_update.core_update %}
   
-  wp_core_update:
-     cmd.run:
-       - name: wp core update --allow-root
-       - cwd: {{ web_path }}
-       - user: root
+      wp_core_update:
+        cmd.run:
+          - name: wp core update --allow-root
+          - cwd: {{ web_path }}
+          - user: root
        
-  {%- endif %}
+    {%- endif %}
   
-  {%- if app.do_update.theme_update %}
+    {%- if app.do_update.theme_update %}
   
-  wp_theme_update:
-     cmd.run:
-       - name: wp theme update --all --allow-root
-       - cwd: {{ web_path }}
-       - user: root
+      wp_theme_update:
+        cmd.run:
+          - name: wp theme update --all --allow-root
+          - cwd: {{ web_path }}
+          - user: root
        
-  {%- endif %}
+    {%- endif %}
   
-  {%- for plugin_name, plugin in app.plugin.iteritems() %}
+    {%- for plugin_name, plugin in app.plugin.iteritems() %}
   
-  {{ plugin_name }}:
-    cmd.run:
-      - name: echo {{ plugin.version }}
+      {{ plugin_name }}_install:
+        cmd.run:
+          - name: wp plugin install {{ plugin_name }} --allow-root
+          - cwd: {{ web_path }}
+          - user: root
+          - unless:  wp plugin is-installed {{ plugin_name }} --allow-root
   
-  {%- endfor %}
+      {%- if plugin.version == 'latest' %}
+  
+        {%- if plugin.source.engine == 'http' %}
     
- {%- else %}
+          {{ plugin_name }}_update:
+            cmd.run:
+              - name: wp plugin update {{ plugin_name }} --allow-root
+              - cwd: {{ web_path }}
+              - user: root
+    
+        {%- elseif plugin.source.engine == 'git' %}  
+    
+        {%- endif %}
+  
+      {%- else %}
+  
+        {%- if plugin.source.engine == 'http' %}
+    
+          {{ plugin_name }}_update:
+            cmd.run:
+              - name: wp plugin update {{ plugin_name }} --version='{{ plugin.version }}' --allow-root
+              - cwd: {{ web_path }}
+              - user: root
+    
+        {%- elseif plugin.source.engine == 'git' %}  
+    
+        {%- endif %}
+  
+      {%- endif %}
+  
+    {%- endfor %}
+    
+  {%- else %}
  
-  not_installed:
-    cmd.run:
-      - name: echo 'WP-CLI not installed - '
+    not_installed:
+      cmd.run:
+        - name: echo 'TODO - vynuceni default DB.'
  
- {%- endif %}
+  {%- endif %}
 
 {%- endfor %}
 
