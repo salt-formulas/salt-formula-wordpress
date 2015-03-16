@@ -3,25 +3,31 @@
 
 {%- for app_name, app in server.app.iteritems() %}
 
-{%- set web_path='/srv/wordpress/sites/'+app_name+'/root/' %}
-    
-{% if salt['cmd.run']('wp core is-installed --path="{{ web_path }}" --allow-root') %}
+ {% if not salt['cmd.run']('wp cli info --allow-root') %}
 
-wp_install:
-  cmd.run:
-    - name: wp core install --url='{{ app.core_install.url }}' --title='{{ app.core_install.title }}' --admin_user='{{ app.core_install.admin_user }}' --admin_password='{{ app.core_install.admin_password }}' --admin_email='{{ app.core_install.admin_email }}' --allow-root
-    - cwd: {{ web_path }}
-    - user: root
+  {%- set web_path='/srv/wordpress/sites/'+app_name+'/root/' %}
     
-{% else %}
+  {% if salt['cmd.run']('wp core is-installed --path="{{ web_path }}" --allow-root') %}
 
-error_output:
- cmd.run:
-     - names:
-       - echo "If not true."
-    - cwd: {{ web_path }}
+  wp_install:
+    cmd.run:
+      - name: wp core install --url='{{ app.core_install.url }}' --title='{{ app.core_install.title }}' --admin_user='{{ app.core_install.admin_user }}' --admin_password='{{ app.core_install.admin_password }}' --admin_email='{{ app.core_install.admin_email }}' --allow-root
+      - cwd: {{ web_path }}
+      - user: root
     
-{% endif %}
+  {% endif %}
+  
+  wp_plugin_install:
+     cmd.run:
+       - name: echo 'TODO install plugin'
+
+ {% else %}
+ 
+  not_installed:
+    cmd.run:
+      - name: echo 'WP-CLI not installed'
+ 
+ {% endif %}
 
 {%- endfor %}
 
@@ -38,5 +44,3 @@ error_output:
 #       - wp core is-intalled --allow-root
 
 # Check if WP is installed
-#{% if not salt['cmd.run']('wp cli info --allow-root') %}
-#{% endif %}
