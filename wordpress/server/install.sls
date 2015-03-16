@@ -17,11 +17,21 @@
     
   {%- endif %}
   
-  {%- if app.update.core_update %}
+  {%- if app:update:core_update %}
   
   wp_plugin_install:
      cmd.run:
        - name: wp core update --allow-root
+       - cwd: {{ web_path }}
+       - user: root
+       
+  {%- endif %}
+  
+  {%- if app:update:theme_update %}
+  
+  wp_plugin_install:
+     cmd.run:
+       - name: wp theme update --all --allow-root
        - cwd: {{ web_path }}
        - user: root
        
