@@ -39,7 +39,7 @@
   
   {%- for plugin_name, plugin in app.plugin.iteritems() %}
   
-  echo_plugin:
+  test_echo_plugin_version:
     cmd.run:
       - name: echo {{ plugin.version }}
   
