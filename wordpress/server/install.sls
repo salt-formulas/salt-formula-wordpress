@@ -45,9 +45,9 @@ install_wpcli_tab:
        
   #{%- endif %}
   
-  wp_theme_update:
-     cmd.run:
-       - name: echo {{ app.update.core_update }}
+  #wp_theme_update:
+    # cmd.run:
+     #  - name: echo {{ app.update.core_update }}
     
  {%- else %}
  
