@@ -3,12 +3,12 @@
 
 {%- for app_name, app in server.app.iteritems() %}
 
- {% set test=salt['cmd.run']('wp cli info --allow-root') %}
- {% if not salt['cmd.run']('wp cli info --allow-root') %}
+ {%- set test=salt['cmd.run']('wp cli info --allow-root') %}
+ {%- if not salt['cmd.run']('wp cli info --allow-root') %}
 
   {%- set web_path='/srv/wordpress/sites/'+app_name+'/root/' %}
     
-  {% if salt['cmd.run']('wp core is-installed --path="{{ web_path }}" --allow-root') %}
+  {%- if salt['cmd.run']('wp core is-installed --path="{{ web_path }}" --allow-root') %}
 
   wp_install:
     cmd.run:
@@ -16,19 +16,25 @@
       - cwd: {{ web_path }}
       - user: root
     
-  {% endif %}
+  {%- endif %}
+  
+  {%- if app.update.core_update %}
   
   wp_plugin_install:
      cmd.run:
-       - name: echo 'TODO install plugin'
+       - name: wp core update --allow-root
+       - cwd: {{ web_path }}
+       - user: root
+       
+  {%- endif %}
 
- {% else %}
+ {%- else %}
  
   not_installed:
     cmd.run:
-      - name: echo 'WP-CLI not installed - '+test
+      - name: echo 'WP-CLI not installed - '+{{ test }}
  
- {% endif %}
+ {%- endif %}
 
 {%- endfor %}
 

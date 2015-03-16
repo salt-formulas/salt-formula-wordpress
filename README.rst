@@ -30,16 +30,19 @@ Sample pillars
               admin-user: 'AdminLoginName'
               admin-password: 'AdminPassword'
               admin-email: 'admin@email.cz'
+            update:
+              core_update: true
+              theme_update: true
             plugin:
               pluginname01:
-                version: 23.03
+                version: '23.03'
                 source:
-                  engine: git
-                  address: git@git.domain.com
+                  engine: 'git'
+                  address: 'git@git.domain.com'
               pluginname01:
-                version: 2.03
+                version: 'latest'
                 source:
-                  engine: http
+                  engine: 'http'
 
 Read more
 =========
