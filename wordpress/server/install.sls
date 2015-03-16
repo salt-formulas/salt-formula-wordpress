@@ -5,7 +5,7 @@
 
 {%- for app_name, app in server.app.iteritems() %}
     
-{% if salt['cmd.run']('wp core is-installed --path='{{ web_path }}' --allow-root') %}
+{% if salt['cmd.run']('wp core is-installed --path="{{ web_path }}" --allow-root') %}
 
 wp_install:
   cmd.run:
