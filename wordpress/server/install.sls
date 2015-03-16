@@ -7,7 +7,7 @@ include:
 {%- for app_name, app in server.app.iteritems() %}
     
 # Check if WP is installed
-{% if not salt['cmd.run']('wp cli info --allow-root') %}
+#{% if not salt['cmd.run']('wp cli info --allow-root') %}
     
 # Install wp - if not installed (need to check if WP-CLI is installed)
 {% if salt['cmd.run']('wp core is-intalled --allow-root') %}
@@ -28,7 +28,7 @@ wp_install:
 #    - unless:
 #       - wp core is-intalled --allow-root
 
-{% endif %}
+#{% endif %}
 
 {%- endfor %}
 
