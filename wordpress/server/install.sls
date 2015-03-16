@@ -6,6 +6,10 @@
  {%- if salt['cmd.run']('wp cli version --allow-root') != 1 %}
 
   {%- set web_path='/srv/wordpress/sites/'+app_name+'/root/' %}
+  
+  echo_path:
+    cmd.run:
+      - name: echo {{ web_path }}
     
   {%- if salt['cmd.run']('wp core is-installed --path="{{ web_path }}" --allow-root') %}
 
@@ -39,9 +43,8 @@
   
   {%- for plugin_name, plugin in app.plugin.iteritems() %}
   
-  test_echo_plugin_version:
-    cmd.run:
-      - name: echo {{ plugin.version }}
+  cmd.run:
+    - name: echo {{ plugin.version }}
   
   {%- endfor %}
     
