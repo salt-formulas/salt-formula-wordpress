@@ -26,6 +26,24 @@
        - user: root
        
   {%- endif %}
+  
+  {%- if app.do_update.theme_update %}
+  
+  wp_theme_update:
+     cmd.run:
+       - name: wp theme update --all --allow-root
+       - cwd: {{ web_path }}
+       - user: root
+       
+  {%- endif %}
+  
+  {%- for plugin in app.plugin.iteritems() %}
+  
+  echo_plugin:
+    cmd.run:
+      - name: echo {{ plugin.version }}
+  
+  {%- endfor %}
     
  {%- else %}
  
