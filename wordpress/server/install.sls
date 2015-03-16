@@ -1,9 +1,9 @@
 {%- from "wordpress/map.jinja" import server with context %}
 {%- if server.enabled %}
 
-{%- set web_path='/srv/wordpress/sites/{{ app_name }}/root/' %}
-
 {%- for app_name, app in server.app.iteritems() %}
+
+{%- set web_path='/srv/wordpress/sites/{{ app_name }}/root/' %}
     
 {% if salt['cmd.run']('wp core is-installed --path="{{ web_path }}" --allow-root') %}
 
