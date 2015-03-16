@@ -59,7 +59,7 @@ include
               - cwd: {{ web_path }}
               - user: root
     
-        {%- elseif plugin.source.engine == 'git' %}  
+        {%- elif plugin.source.engine == 'git' %}  
     
         {%- endif %}
   
@@ -73,7 +73,7 @@ include
               - cwd: {{ web_path }}
               - user: root
     
-        {%- elseif plugin.source.engine == 'git' %}  
+        {%- elif plugin.source.engine == 'git' %}  
     
         {%- endif %}
   
