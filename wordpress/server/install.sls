@@ -37,7 +37,7 @@
        
   {%- endif %}
   
-  {%- for plugin in app.plugin.iteritems() %}
+  {%- for plugin_name, plugin in app.plugin.iteritems() %}
   
   echo_plugin:
     cmd.run:
