@@ -1,7 +1,7 @@
 {%- from "wordpress/map.jinja" import server with context %}
 {%- if server.enabled %}
 
-include
+include:
 - git
 
 {%- for app_name, app in server.app.iteritems() %}
