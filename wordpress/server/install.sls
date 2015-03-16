@@ -27,6 +27,7 @@ include:
           - name: wp core update --allow-root
           - cwd: {{ web_path }}
           - user: root
+          - unless: wp core check-update --allow-root
        
     {%- endif %}
   
@@ -39,47 +40,6 @@ include:
           - user: root
        
     {%- endif %}
-  
-    {%- for plugin_name, plugin in app.plugin.iteritems() %}
-  
-      {{ plugin_name }}_install:
-        cmd.run:
-          - name: wp plugin install {{ plugin_name }} --allow-root
-          - cwd: {{ web_path }}
-          - user: root
-          - unless:  wp plugin is-installed {{ plugin_name }} --allow-root
-  
-      {%- if plugin.version == 'latest' %}
-  
-        {%- if plugin.source.engine == 'http' %}
-    
-          {{ plugin_name }}_update:
-            cmd.run:
-              - name: wp plugin update {{ plugin_name }} --allow-root
-              - cwd: {{ web_path }}
-              - user: root
-    
-        {%- elif plugin.source.engine == 'git' %}  
-    
-        {%- endif %}
-  
-      {%- else %}
-  
-        {%- if plugin.source.engine == 'http' %}
-    
-          {{ plugin_name }}_update:
-            cmd.run:
-              - name: wp plugin update {{ plugin_name }} --version='{{ plugin.version }}' --allow-root
-              - cwd: {{ web_path }}
-              - user: root
-    
-        {%- elif plugin.source.engine == 'git' %}  
-    
-        {%- endif %}
-  
-      {%- endif %}
-  
-    {%- endfor %}
     
   {%- else %}
  
@@ -92,15 +52,3 @@ include:
 {%- endfor %}
 
 {%- endif %}
-
-
-#TODO - test multiple plugin install (for) and enable them. 
-#testplugin_install:
-#  cmd.run:
-#    - name: wp plugin install members --allow-root
-#    - cwd: /srv/wordpress/sites/devel/root/
-#    - user: root
-#    - unless:
-#       - wp core is-intalled --allow-root
-
-# Check if WP is installed
