@@ -16,6 +16,16 @@
       - user: root
     
   {%- endif %}
+  
+  {%- if app_name.update.core_update %}
+  
+  wp_core_update:
+     cmd.run:
+       - name: wp core update --allow-root
+       - cwd: {{ web_path }}
+       - user: root
+       
+  {%- endif %}
     
  {%- else %}
  
