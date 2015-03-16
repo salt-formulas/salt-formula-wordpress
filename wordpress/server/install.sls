@@ -3,8 +3,7 @@
 
 {%- for app_name, app in server.app.iteritems() %}
 
- {%- set test=salt['cmd.run']('wp cli info --allow-root') %}
- {%- if not salt['cmd.run']('wp cli info --allow-root') %}
+ {%- if salt['cmd.run']('wp cli version --allow-root') != 1 %}
 
   {%- set web_path='/srv/wordpress/sites/'+app_name+'/root/' %}
     
@@ -32,7 +31,7 @@
  
   not_installed:
     cmd.run:
-      - name: echo 'WP-CLI not installed - '+{{ test }}
+      - name: echo 'WP-CLI not installed - '
  
  {%- endif %}
 
