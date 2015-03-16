@@ -17,7 +17,7 @@
     
   {%- endif %}
   
-  {%- if app.devel.update.core_update %}
+  {%- if app.update.core_update %}
   
   wp_plugin_install:
      cmd.run:
@@ -27,7 +27,7 @@
        
   {%- endif %}
   
-  {%- if app.devel.update.theme_update %}
+  {%- if app.update.theme_update %}
   
   wp_plugin_install:
      cmd.run:
