@@ -1,14 +1,6 @@
 {%- from "wordpress/map.jinja" import server with context %}
 {%- if server.enabled %}
 
-install_wpcli:
-  cmd.run:
-    - name: /tmp/wpcli-install.sh
-    
-install_wpcli_tab:
-  cmd.run:
-    - name: /tmp/wpcli-tab.sh
-
 {%- for app_name, app in server.app.iteritems() %}
 
  {%- if salt['cmd.run']('wp cli version --allow-root') != 1 %}
@@ -24,6 +16,30 @@ install_wpcli_tab:
       - user: root
     
   {%- endif %}
+  
+  #{%- if app.update.core_update %}
+  
+  #wp_core_update:
+    # cmd.run:
+    #   - name: wp core update --allow-root
+    #   - cwd: {{ web_path }}
+    #   - user: root
+       
+  #{%- endif %}
+  
+  #{%- if app.update.theme_update %}
+  
+ # wp_theme_update:
+  #   cmd.run:
+    #   - name: wp theme update --all --allow-root
+    #   - cwd: {{ web_path }}
+    #   - user: root
+       
+  #{%- endif %}
+  
+  #wp_theme_update:
+    # cmd.run:
+     #  - name: echo {{ app.update.core_update }}
     
  {%- else %}
  
