@@ -17,7 +17,7 @@
     
   {%- endif %}
   
-
+  {%- if app.do_update.core_update %}
   
   wp_core_update:
      cmd.run:
@@ -25,6 +25,7 @@
        - cwd: {{ web_path }}
        - user: root
        
+  {%- endif %}
     
  {%- else %}
  

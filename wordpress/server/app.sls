@@ -62,8 +62,10 @@ install_wpcli:
     - name: wpcli-install
     - source: salt://wordpress/files/wpcli-install.sh
     - cwd: /
+    - user: root
     - require:
       - git: wordpress_{{ app_name }}_git
+    - unless: wp cli version --allow-root
 
 {%- endfor %}
 
