@@ -85,6 +85,8 @@ wp_theme_update:
 
 {%- endif %}
 
+{%- endif %}
+
 {%- endfor %}
     
 {%- else %}
