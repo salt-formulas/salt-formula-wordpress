@@ -13,10 +13,10 @@ include:
   
 test_echo_kdovi:
   cmd.run:
-    - name: whoami
+    - name: echo salt['cmd.run']('wp core is-installed --path="'+web_path+'" --allow-root')
   
 # Install DB tables if they are not present.
-{%- if salt['cmd.run']('wp core is-installed --path="{{ web_path }}" --allow-root') == 1 %}
+{%- if salt['cmd.run']('wp core is-installed --path="'+web_path+'" --allow-root') == 1 %}
 wp_install:
   cmd.run:
     - name: wp core install --url='{{ app.core_install.url }}' --title='{{ app.core_install.title }}' --admin_user='{{ app.core_install.admin_user }}' --admin_password='{{ app.core_install.admin_password }}' --admin_email='{{ app.core_install.admin_email }}' --allow-root
@@ -47,7 +47,7 @@ wp_theme_update:
 {%- for plugin_name, plugin in app.plugin.iteritems() %}
 
 # Install plugin if is not already installed. If installed - update.
-{%- if salt['cmd.run']('wp plugin is-installed {{ plugin_name }} --path="{{ web_path }}" --allow-root') != 0 %}
+{%- if salt['cmd.run']('wp plugin is-installed '+plugin_name+' --path="'+web_path+'" --allow-root') != 0 %}
 
 {{ plugin_name }}_install:
   cmd.run:
