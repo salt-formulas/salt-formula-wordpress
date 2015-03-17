@@ -11,9 +11,13 @@ include:
 
 {%- set web_path='/srv/wordpress/sites/'+app_name+'/root/' %}
   
+test_echo_path:
+  cmd.run:
+    - name: echo 'wp core is-installed --path='+{{ web_path }}+' --allow-root'
+    
 test_echo_kdovi:
   cmd.run:
-    - name: echo 'wp core is-installed --path='+web_path+' --allow-root'
+    - name: echo {{ salt['cmd.run']('wp core is-installed --path='+web_path+' --allow-root') }}
   
 # Install DB tables if they are not present.
 {%- if salt['cmd.run']('wp core is-installed --path='+web_path+' --allow-root') == 1 %}
