@@ -39,41 +39,52 @@ wp_theme_update:
     - user: root
 {%- endif %}
   
-# Updating/Installing plugins by version 
+# Updating/Installing plugins by version. 
 {%- for plugin_name, plugin in app.plugin.iteritems() %}
+
+# Install plugin if is not already installed. If installed - update.
+{%- if salt['cmd.run']('wp plugin is-installed {{ plugin_name }} --allow-root') != 0 %}
 
 {{ plugin_name }}_install:
   cmd.run:
+{%- if plugin.version == 'latest' %}
     - name: wp plugin install {{ plugin_name }} --allow-root
+{%- else %}
+    - name: wp plugin install {{ plugin_name }} --version='{{ plugin.version }}' --allow-root
+{%- endif %}
     - cwd: {{ web_path }}
     - user: root
-    - unless:  wp plugin is-installed {{ plugin_name }} --allow-root
-
-# Check if plugin version is set.
-{%- if plugin.version == 'latest' %}
-
-{%- if plugin.source.engine == 'http' %}
-{{ plugin_name }}_update:
-  cmd.run:
-    - name: wp plugin update {{ plugin_name }} --allow-root
-    - cwd: {{ web_path }}
-    - user: root    
-{%- elif plugin.source.engine == 'git' %}  
-{%- endif %}
-  
+    
 {%- else %}
   
+# Update plugins via http
 {%- if plugin.source.engine == 'http' %}
+
 {{ plugin_name }}_update:
   cmd.run:
+{%- if plugin.version == 'latest' %}
+    - name: wp plugin update {{ plugin_name }} --allow-root
+{%- else %}
     - name: wp plugin update {{ plugin_name }} --version='{{ plugin.version }}' --allow-root
+{%- endif %}
     - cwd: {{ web_path }}
     - user: root
+
+# Update plugins via git
 {%- elif plugin.source.engine == 'git' %}  
+
+{{ plugin_name }}_git_update:
+  git.latest:
+    - name: {{ plugin.source.address }}
+{%- if plugin.version != 'latest' %}
+    - rev: {{ plugin.version }}
 {%- endif %}
-  
+    - target: {{ web_path }}/wp-content/plugins/{{ plugin_name }}
+    - require:
+      - git: wordpress_{{ app_name }}_git
+
 {%- endif %}
-  
+
 {%- endfor %}
     
 {%- else %}
@@ -87,3 +98,8 @@ not_installed:
 {%- endfor %}
 
 {%- endif %}
+
+# TODO: Checkovat jestli plugin je nebo není -> rozdělit tak install od update (první projetí projede jak instal tak update) 75 query
+# TODO: Install/Update z git zdroje
+# TODO: Vynucení databáze když není WP-CLI
+# TODO: change user, add rights to see dir with wp and eliminate --allow-root
