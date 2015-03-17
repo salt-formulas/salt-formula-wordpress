@@ -13,7 +13,7 @@ include:
   
 test_echo_kdovi:
   cmd.run:
-    - name: echo $USER
+    - name: whoami
   
 # Install DB tables if they are not present.
 {%- if salt['cmd.run']('wp core is-installed --path="{{ web_path }}" --allow-root') == 1 %}
@@ -94,21 +94,25 @@ wp_theme_update:
 {%- endfor %}
     
 {%- else %}
- 
-not_installed:
-  cmd.run:
-  - name: echo 'TODO - vynuceni default DB.'
   
-# (Deprecated) Moving .sql file for creating database.
-#/tmp/init.mysql:
-#  file.managed:
-#  - source: salt://wordpress/files/init.sql
-#  - template: jinja
-#  - mode: 644
-#  - require:
-#    - git: wordpress_{{ app_name }}_git
-#  - defaults:
-#    app_name: "{{ app_name }}"
+# Moving .sql file for creating database.
+/tmp/init.mysql:
+  file.managed:
+    - source: salt://wordpress/files/init.sql
+    - template: jinja
+    - mode: 644
+    - require:
+      - git: wordpress_{{ app_name }}_git
+    - defaults:
+      - app_name: "{{ app_name }}"
+ 
+# Create DB if WP-CLI is not installed.
+create_db:
+  cmd.run:
+    - name: mysql -u {{ app.database.user }} -p{{ app.database.password }} < /tmp/init.mysql
+    - require:
+      - service: mysql
+      - file: /tmp/init.mysql 
  
 {%- endif %}
 
@@ -117,7 +121,7 @@ not_installed:
 {%- endif %}
 
 # TODO: Checkovat jestli plugin je nebo není -> rozdělit tak install od update (první projetí projede jak instal tak update) 75 query
-# TODO: Install/Update z git zdroje
-# TODO: Vynucení databáze když není WP-CLI
-# TODO: change user, add rights to see dir with wp and eliminate --allow-root
+# TODO: Install z git zdroje (Test update).
+# TODO: kontrola jestli DB je naplnena - když není WP-CLI
+# TODO: zmena uzivatele, práva aby videl slozku s wp a eliminace -> --allow-root
 # TODO: parametrize url in yml
