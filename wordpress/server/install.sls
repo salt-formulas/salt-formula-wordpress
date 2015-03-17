@@ -13,14 +13,14 @@ include:
   
 test_echo_path:
   cmd.run:
-    - name: echo 'wp core is-installed --path='{{ web_path }}' --allow-root'
+    - name: echo 'wp core is-installed --path="{{ web_path }}" --allow-root'
   
-{%- set test = 'wp core is-installed --path='+web_path+' --allow-root' %}
+{%- set test = 'wp core is-installed --path="'+web_path+'" --allow-root' %}
 test_echo_kdosfvvi:
   cmd.run:
     - name: echo {{ test }}  
   
-{%- set test = salt['cmd.run']('wp core is-installed --path='+web_path+' --allow-root') %}
+{%- set test = salt['cmd.run']('wp core is-installed --path="'+web_path+'" --allow-root') %}
 test_echo_kdovi:
   cmd.run:
     - name: echo {{ test }}
