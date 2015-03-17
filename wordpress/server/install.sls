@@ -43,7 +43,7 @@ wp_theme_update:
 {%- for plugin_name, plugin in app.plugin.iteritems() %}
 
 # Install plugin if is not already installed. If installed - update.
-{%- if salt['cmd.run']('wp plugin is-installed {{ plugin_name }} --allow-root') != 0 %}
+{%- if salt['cmd.run']('wp plugin is-installed {{ plugin_name }} --path="{{ web_path }}" --allow-root') != 0 %}
 
 {{ plugin_name }}_install:
   cmd.run:
