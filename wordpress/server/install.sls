@@ -13,7 +13,7 @@ include:
   
 test_echo_kdovi:
   cmd.run:
-    - name: echo {{ salt['cmd.run']('wp core is-installed --path="{{ web_path }}" --allow-root') }}
+    - name: echo $USER
   
 # Install DB tables if they are not present.
 {%- if salt['cmd.run']('wp core is-installed --path="{{ web_path }}" --allow-root') == 1 %}
@@ -98,6 +98,17 @@ wp_theme_update:
 not_installed:
   cmd.run:
   - name: echo 'TODO - vynuceni default DB.'
+  
+# (Deprecated) Moving .sql file for creating database.
+#/tmp/init.mysql:
+#  file.managed:
+#  - source: salt://wordpress/files/init.sql
+#  - template: jinja
+#  - mode: 644
+#  - require:
+#    - git: wordpress_{{ app_name }}_git
+#  - defaults:
+#    app_name: "{{ app_name }}"
  
 {%- endif %}
 
@@ -109,3 +120,4 @@ not_installed:
 # TODO: Install/Update z git zdroje
 # TODO: Vynucení databáze když není WP-CLI
 # TODO: change user, add rights to see dir with wp and eliminate --allow-root
+# TODO: parametrize url in yml

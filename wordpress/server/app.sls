@@ -34,17 +34,6 @@ wordpress_{{ app_name }}_git:
   - defaults:
     app_name: "{{ app_name }}"
 
-# (Deprecated) Moving .sql file for creating database.
-#/tmp/init.mysql:
-#  file.managed:
-#  - source: salt://wordpress/files/init.sql
-#  - template: jinja
-#  - mode: 644
-#  - require:
-#    - git: wordpress_{{ app_name }}_git
-#  - defaults:
-#    app_name: "{{ app_name }}"
-
 # Moving Tab completion script to temp dir.
 /tmp/wpcli-tab.sh:
   file.managed:
