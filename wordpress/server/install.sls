@@ -11,19 +11,8 @@ include:
 
 {%- set web_path='/srv/wordpress/sites/'+app_name+'/root/' %}
   
-{%- set test = 'wp core is-installed --path="'+web_path+'" --allow-root' %}
-test_echo_kdovi:
-  cmd.run:
-    - name: echo '{{ salt.cmd.run('wp core is-installed --path=/srv/wordpress/sites/devel/rot/ --allow-root') }}'
-
-{{ salt.cmd.run('whoami') }}
-
-test_echo_kdodfbvi:
-  cmd.run:
-    - name: echo '{{ salt.cmd.run('whoami') }}'
-  
 # Install DB tables if they are not present.
-{%- if salt['cmd.run'](test) == 1 %}
+{%- if salt['cmd.run']('wp core is-installed --path="'+web_path+'" --allow-root') %}
 wp_install:
   cmd.run:
     - name: wp core install --url='{{ app.core_install.url }}' --title='{{ app.core_install.title }}' --admin_user='{{ app.core_install.admin_user }}' --admin_password='{{ app.core_install.admin_password }}' --admin_email='{{ app.core_install.admin_email }}' --allow-root
