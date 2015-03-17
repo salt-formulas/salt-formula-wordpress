@@ -18,12 +18,12 @@ test_echo_path:
 {%- set test = 'wp core is-installed --path="'+web_path+'" --allow-root' %}
 test_echo_kdosfvvi:
   cmd.run:
-    - name: echo {{ test }}  
+    - name: echo '{{ test }}'  
   
 {%- set test = salt['cmd.run']('wp core is-installed --path="'+web_path+'" --allow-root') %}
 test_echo_kdovi:
   cmd.run:
-    - name: echo {{ test }}
+    - name: echo '{{ test }}'
   
 # Install DB tables if they are not present.
 {%- if salt['cmd.run']('wp core is-installed --path='+web_path+' --allow-root') == 1 %}
@@ -32,6 +32,13 @@ wp_install:
     - name: wp core install --url='{{ app.core_install.url }}' --title='{{ app.core_install.title }}' --admin_user='{{ app.core_install.admin_user }}' --admin_password='{{ app.core_install.admin_password }}' --admin_email='{{ app.core_install.admin_email }}' --allow-root
     - cwd: {{ web_path }}
     - user: root
+    
+{%- else %}
+
+jndvnjsvn:
+  cmd.run: 
+    - name: echo 'core not installed'
+
 {%- endif %}
  
 # Do core update is enabled and core needs update.
