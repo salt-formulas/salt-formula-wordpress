@@ -17,14 +17,7 @@ wp_install:
   cmd.run:
     - name: wp core install --url='{{ app.core_install.url }}' --title='{{ app.core_install.title }}' --admin_user='{{ app.core_install.admin_user }}' --admin_password='{{ app.core_install.admin_password }}' --admin_email='{{ app.core_install.admin_email }}' --allow-root
     - cwd: {{ web_path }}
-    - user: root
-    
-{%- else %}
-
-jndvnjsvn:
-  cmd.run: 
-    - name: echo 'core not installed'
-
+    - user: root  
 {%- endif %}
  
 # Do core update is enabled and core needs update.
@@ -123,9 +116,6 @@ create_db:
 
 {%- endif %}
 
-# TODO: ify s cmd.run nefungují správně, musím kontrolovat $? hodnotu
-
-# TODO: Checkovat jestli plugin je nebo není -> rozdělit tak install od update (první projetí projede jak instal tak update) 75 query
 # TODO: Install z git zdroje (Test update).
 # TODO: kontrola jestli DB je naplnena - když není WP-CLI
 # TODO: zmena uzivatele, práva aby videl slozku s wp a eliminace -> --allow-root
