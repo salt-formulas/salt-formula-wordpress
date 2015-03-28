@@ -94,10 +94,11 @@ wp_theme_update:
     - name: {{ plugin.source.address }}
 {%- if plugin.version != 'latest' %}
     - rev: {{ plugin.version }}
+{%- else %}
+    - rev: ''
 {%- endif %}
     - target: {{ web_path }}/wp-content/plugins/{{ plugin_name }}
     - force: true
-    - force_checkout: true
     - force_reset: true
     - require:
       - git: wordpress_{{ app_name }}_git
@@ -140,10 +141,11 @@ wp_theme_update:
     - name: {{ plugin.source.address }}
 {%- if plugin.version != 'latest' %}
     - rev: {{ plugin.version }}
+{%- else %}
+    - rev: ''
 {%- endif %}
     - target: {{ web_path }}/wp-content/plugins/{{ plugin_name }}
     - force: true
-    - force_checkout: true
     - force_reset: true
     - require:
       - git: wordpress_{{ app_name }}_git
