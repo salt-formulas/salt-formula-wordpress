@@ -89,18 +89,30 @@ wp_theme_update:
 # Update plugins via git
 {%- elif plugin.source.engine == 'git' %}  
 
+#{{ plugin_name }}_git_update:
+#  git.latest:
+#    - name: {{ plugin.source.address }}
+#{%- if plugin.version != 'latest' %}
+#    - rev: {{ plugin.version }}
+#{%- else %}
+#    - rev: 'master'
+#{%- endif %}
+#    - target: {{ web_path }}/wp-content/plugins/{{ plugin_name }}
+#    - force: true
+#    - force_reset: true
+#    - force_checkout: true
+#    - require:
+#      - git: wordpress_{{ app_name }}_git
+
 {{ plugin_name }}_git_update:
-  git.latest:
-    - name: {{ plugin.source.address }}
+  cmd.run:
 {%- if plugin.version != 'latest' %}
-    - rev: {{ plugin.version }}
+    - name: git pull {{ plugin.source.address }} {{ plugin.version }}
 {%- else %}
-    - rev: 'master'
+    - name: git pull {{ plugin.source.address }} master
 {%- endif %}
-    - target: {{ web_path }}/wp-content/plugins/{{ plugin_name }}
-    - force: true
-    - force_reset: true
-    - force_checkout: true
+    - cwd: {{ web_path }}/wp-content/plugins/{{ plugin_name }}
+    - user: root
     - require:
       - git: wordpress_{{ app_name }}_git
 
@@ -162,6 +174,5 @@ wp_theme_update:
 
 {%- endif %}
 
-# TODO: Install z git zdroje (Test update).
 # TODO: kontrola jestli DB je naplnena - když není WP-CLI
 # TODO: zmena uzivatele, práva aby videl slozku s wp a eliminace -> --allow-root
