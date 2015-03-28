@@ -76,15 +76,15 @@ wp_theme_update:
 # Update plugins via http
 {%- if plugin.source.engine == 'http' %}
 
-{{ plugin_name }}_update:
-  cmd.run:
-{%- if plugin.version == 'latest' %}
-    - name: wp plugin update {{ plugin_name }} --allow-root
-{%- else %}
-    - name: wp plugin update {{ plugin_name }} --version='{{ plugin.version }}' --allow-root
-{%- endif %}
-    - cwd: {{ web_path }}
-    - user: root
+#{{ plugin_name }}_update:
+#  cmd.run:
+#{%- if plugin.version == 'latest' %}
+#    - name: wp plugin update {{ plugin_name }} --allow-root
+#{%- else %}
+#    - name: wp plugin update {{ plugin_name }} --version='{{ plugin.version }}' --allow-root
+#{%- endif %}
+#    - cwd: {{ web_path }}
+#    - user: root
 
 # Update plugins via git
 {%- elif plugin.source.engine == 'git' %}  
