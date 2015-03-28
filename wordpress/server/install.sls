@@ -8,14 +8,9 @@ include:
 
 
 # Tests
-{%- set test_duo = salt['pillar.get']('apache:server:site:wordpress_devel:host:name') %}
 echo_host:
   cmd.run:
-    - name: echo {{ app.core_install.test }}
-    
-echo_host_duo:
-  cmd.run:
-    - name: echo {{ test_duo }}
+    - name: echo {{ app.core_install.url }}
 
 
 # Check if WP-CLI is running.
