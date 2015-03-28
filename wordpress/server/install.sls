@@ -74,32 +74,32 @@ wp_theme_update:
 {%- else %}
   
 # Update plugins via http
-#{%- if plugin.source.engine == 'http' %}
+{%- if plugin.source.engine == 'http' %}
 
-#{{ plugin_name }}_update:
-#  cmd.run:
-#{%- if plugin.version == 'latest' %}
-#    - name: wp plugin update {{ plugin_name }} --allow-root
-#{%- else %}
-#    - name: wp plugin update {{ plugin_name }} --version='{{ plugin.version }}' --allow-root
-#{%- endif %}
-#    - cwd: {{ web_path }}
-#    - user: root
+{{ plugin_name }}_update:
+  cmd.run:
+{%- if plugin.version == 'latest' %}
+    - name: wp plugin update {{ plugin_name }} --allow-root
+{%- else %}
+    - name: wp plugin update {{ plugin_name }} --version='{{ plugin.version }}' --allow-root
+{%- endif %}
+    - cwd: {{ web_path }}
+    - user: root
 
 # Update plugins via git
-#{%- elif plugin.source.engine == 'git' %}  
+{%- elif plugin.source.engine == 'git' %}  
 
-#{{ plugin_name }}_git_update:
-#  git.latest:
-#    - name: {{ plugin.source.address }}
-#{%- if plugin.version != 'latest' %}
-#    - rev: {{ plugin.version }}
-#{%- endif %}
-#    - target: {{ web_path }}/wp-content/plugins/{{ plugin_name }}
-#    - require:
-#      - git: wordpress_{{ app_name }}_git
+{{ plugin_name }}_git_update:
+  git.latest:
+    - name: {{ plugin.source.address }}
+{%- if plugin.version != 'latest' %}
+    - rev: {{ plugin.version }}
+{%- endif %}
+    - target: {{ web_path }}/wp-content/plugins/{{ plugin_name }}
+    - require:
+      - git: wordpress_{{ app_name }}_git
 
-#{%- endif %}
+{%- endif %}
 
 {%- endif %}
 
@@ -119,12 +119,22 @@ wp_theme_update:
       - app_name: "{{ app_name }}"
  
 # Create DB if WP-CLI is not installed.
-create_db:
-  cmd.run:
-    - name: mysql -u {{ app.database.user }} -p{{ app.database.password }} < /tmp/init.mysql
+#create_db:
+#  cmd.run:
+#    - name: mysql -u {{ app.database.user }} -p{{ app.database.password }} < /tmp/init.mysql
+#    - require:
+#      - service: mysql
+#      - file: /tmp/init.mysql 
+
+{{ plugin_name }}_git_without_cli:
+  git.latest:
+    - name: {{ plugin.source.address }}
+{%- if plugin.version != 'latest' %}
+    - rev: {{ plugin.version }}
+{%- endif %}
+    - target: {{ web_path }}/wp-content/plugins/{{ plugin_name }}
     - require:
-      - service: mysql
-      - file: /tmp/init.mysql 
+      - git: wordpress_{{ app_name }}_git
  
 {%- endif %}
 
