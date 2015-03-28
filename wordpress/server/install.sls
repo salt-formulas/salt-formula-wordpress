@@ -6,6 +6,18 @@ include:
 
 {%- for app_name, app in server.app.iteritems() %}
 
+
+# Tests
+{%- set test_duo = salt['pillar.get']('apache:server:site:wordpress_devel:host:name') %}
+echo_host:
+  cmd.run:
+    - name: echo {{ app.core_install.test }}
+    
+echo_host_duo:
+  cmd.run:
+    - name: echo {{ test_duo }}
+
+
 # Check if WP-CLI is running.
 {%- if salt['cmd.retcode']('wp cli version --allow-root') != 1 %}
 
