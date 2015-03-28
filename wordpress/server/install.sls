@@ -92,14 +92,7 @@ wp_theme_update:
 {{ plugin_name }}_git_update:
   git.latest:
     - name: {{ plugin.source.address }}
-{%- if plugin.version != 'latest' %}
-    - rev: {{ plugin.version }}
-{%- else %}
-    - rev: ''
-{%- endif %}
     - target: {{ web_path }}/wp-content/plugins/{{ plugin_name }}
-    - force: true
-    - force_reset: true
     - require:
       - git: wordpress_{{ app_name }}_git
 
@@ -140,7 +133,7 @@ wp_theme_update:
   git.latest:
     - name: {{ plugin.source.address }}
 {%- if plugin.version != 'latest' %}
-    - rev: {{ plugin.version }}
+#    - rev: {{ plugin.version }}
 {%- else %}
     - rev: ''
 {%- endif %}
