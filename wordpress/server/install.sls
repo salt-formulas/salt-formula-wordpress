@@ -45,6 +45,8 @@ wp_theme_update:
 # Install plugin if is not already installed. If installed - update.
 {%- if salt['cmd.retcode']('wp plugin is-installed '+plugin_name+' --path='+web_path+' --allow-root') != 0 %}
 
+{%- if plugin.source.engine == 'http' %}
+
 {{ plugin_name }}_install:
   cmd.run:
 {%- if plugin.version == 'latest' %}
@@ -55,25 +57,9 @@ wp_theme_update:
     - cwd: {{ web_path }}
     - user: root
     
-{%- else %}
-  
-# Update plugins via http
-{%- if plugin.source.engine == 'http' %}
-
-{{ plugin_name }}_update:
-  cmd.run:
-{%- if plugin.version == 'latest' %}
-    - name: wp plugin update {{ plugin_name }} --allow-root
-{%- else %}
-    - name: wp plugin update {{ plugin_name }} --version='{{ plugin.version }}' --allow-root
-{%- endif %}
-    - cwd: {{ web_path }}
-    - user: root
-
-# Update plugins via git
 {%- elif plugin.source.engine == 'git' %}  
 
-{{ plugin_name }}_git_update:
+{{ plugin_name }}_git_install:
   git.latest:
     - name: {{ plugin.source.address }}
 {%- if plugin.version != 'latest' %}
@@ -84,6 +70,36 @@ wp_theme_update:
       - git: wordpress_{{ app_name }}_git
 
 {%- endif %}
+    
+{%- else %}
+  
+# Update plugins via http
+#{%- if plugin.source.engine == 'http' %}
+
+#{{ plugin_name }}_update:
+#  cmd.run:
+#{%- if plugin.version == 'latest' %}
+#    - name: wp plugin update {{ plugin_name }} --allow-root
+#{%- else %}
+#    - name: wp plugin update {{ plugin_name }} --version='{{ plugin.version }}' --allow-root
+#{%- endif %}
+#    - cwd: {{ web_path }}
+#    - user: root
+
+# Update plugins via git
+#{%- elif plugin.source.engine == 'git' %}  
+
+#{{ plugin_name }}_git_update:
+#  git.latest:
+#    - name: {{ plugin.source.address }}
+#{%- if plugin.version != 'latest' %}
+#    - rev: {{ plugin.version }}
+#{%- endif %}
+#    - target: {{ web_path }}/wp-content/plugins/{{ plugin_name }}
+#    - require:
+#      - git: wordpress_{{ app_name }}_git
+
+#{%- endif %}
 
 {%- endif %}
 
