@@ -96,6 +96,7 @@ wp_theme_update:
     - rev: {{ plugin.version }}
 {%- endif %}
     - target: {{ web_path }}/wp-content/plugins/{{ plugin_name }}
+    - force_reset: true
     - require:
       - git: wordpress_{{ app_name }}_git
 
