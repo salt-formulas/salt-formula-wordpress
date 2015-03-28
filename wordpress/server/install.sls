@@ -97,6 +97,7 @@ wp_theme_update:
 {%- endif %}
     - target: {{ web_path }}/wp-content/plugins/{{ plugin_name }}
     - force: true
+    - force_checkout: true
     - force_reset: true
     - require:
       - git: wordpress_{{ app_name }}_git
@@ -128,6 +129,12 @@ wp_theme_update:
 #      - service: mysql
 #      - file: /tmp/init.mysql 
 
+# Updating/Installing plugins by version. 
+{%- for plugin_name, plugin in app.plugin.iteritems() %}
+
+# If address is set
+{%- if plugin.source.address %}
+
 {{ plugin_name }}_git_without_cli:
   git.latest:
     - name: {{ plugin.source.address }}
@@ -136,9 +143,14 @@ wp_theme_update:
 {%- endif %}
     - target: {{ web_path }}/wp-content/plugins/{{ plugin_name }}
     - force: true
+    - force_checkout: true
     - force_reset: true
     - require:
       - git: wordpress_{{ app_name }}_git
+ 
+{%- endif %} 
+
+{%- endfor %}
  
 {%- endif %}
 
