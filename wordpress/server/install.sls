@@ -68,6 +68,7 @@ wp_theme_update:
     - rev: 'master'
 {%- endif %}
     - target: {{ web_path }}/wp-content/plugins/{{ plugin_name }}
+    - user: www-data
     - require:
       - git: wordpress_{{ app_name }}_git
 
@@ -100,6 +101,7 @@ wp_theme_update:
     - rev: 'master'
 {%- endif %}
     - target: {{ web_path }}/wp-content/plugins/{{ plugin_name }}
+    - user: www-data
     - force: true
     - require:
       - git: wordpress_{{ app_name }}_git
@@ -141,11 +143,12 @@ wp_theme_update:
   git.latest:
     - name: {{ plugin.source.address }}
 {%- if plugin.version != 'latest' %}
-#    - rev: {{ plugin.version }}
+#   - rev: {{ plugin.version }}
 {%- else %}
     - rev: 'master'
 {%- endif %}
     - target: {{ web_path }}/wp-content/plugins/{{ plugin_name }}
+    - user: www-data
     - force: true
     - require:
       - git: wordpress_{{ app_name }}_git
