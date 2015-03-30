@@ -20,6 +20,7 @@ wordpress_{{ app_name }}_git:
   - name: {{ server.git_source }}
   - rev: {{ app.version }}-branch
   - target: /srv/wordpress/sites/{{ app_name }}/root 
+  - user: www-data
   - require:
     - pkg: git_packages
 
