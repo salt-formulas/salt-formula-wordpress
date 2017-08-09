@@ -36,7 +36,7 @@ wordpress_{{ app_name }}_source:
 
 wordpress_{{ app_name }}_core_install:
   cmd.run:
-  - name: wp core install --url='{{ app.url }}' --title='{{ app.title }}' --admin_user='{{ app.admin_user }}' --admin_password='{{ app.admin_password }}' --admin_email='{{ app.admin_email }}'
+  - name: wp core install --url='{{ app.host }}' --title='{{ app.title }}' --admin_user='{{ app.admin_user }}' --admin_password='{{ app.admin_password }}' --admin_email='{{ app.admin_email }}'
   - cwd: {{ app_dir }}
   - user: www-data
   - unless: wp core is-installed --path="{{ app_dir }}" --allow-root
