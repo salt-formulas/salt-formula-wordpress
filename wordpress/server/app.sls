@@ -1,31 +1,30 @@
 {%- from "wordpress/map.jinja" import server with context %}
 {%- if server.enabled %}
 
-include:
-- git
-
 {%- for app_name, app in server.app.iteritems() %}
 
-# Creating directory for web
+{%- set app_dir = '/srv/wordpress/sites/'+app_name+'/root' %}
+
 /srv/wordpress/sites/{{ app_name }}:
   file.directory:
   - user: www-data
   - group: www-data
   - mode: 770
-  - makedirs: true
 
-# Downloading WP to directory
-wordpress_{{ app_name }}_git:
+{%- if server.source.engine == 'git' %}
+
+wordpress_{{ app_name }}_source:
   git.latest:
-  - name: {{ server.git_source }}
+  - name: {{ server.source.address }}
   - rev: {{ app.version }}-branch
-  - target: /srv/wordpress/sites/{{ app_name }}/root 
+  - target: {{ app_dir }}
   - user: www-data
   - require:
-    - pkg: git_packages
+    - file: /srv/wordpress/sites/{{ app_name }}
 
-# Copiing config file to directory with WP
-/srv/wordpress/sites/{{ app_name }}/root/wp-config.php:
+{%- endif %}
+
+{{ app_dir }}/wp-config.php:
   file.managed:
   - source: salt://wordpress/files/wp-config.php
   - template: jinja
@@ -33,44 +32,84 @@ wordpress_{{ app_name }}_git:
   - require:
     - git: wordpress_{{ app_name }}_git
   - defaults:
-    app_name: "{{ app_name }}"
+      app_name: {{ app_name }}
 
-# Moving Tab completion script to temp dir.
-/srv/wordpress/sites/{{ app_name }}/wpcli-tab.sh:
-  file.managed:
-  - source: salt://wordpress/files/wpcli-tab.sh
-  - template: jinja
-  - mode: 644
-  - require:
-    - git: wordpress_{{ app_name }}_git
-  - defaults:
-    app_name: "{{ app_name }}"
+wordpress_{{ app_name }}_core_install:
+  cmd.run:
+  - name: wp core install --url='{{ app.url }}' --title='{{ app.title }}' --admin_user='{{ app.admin_user }}' --admin_password='{{ app.admin_password }}' --admin_email='{{ app.admin_email }}'
+  - cwd: {{ app_dir }}
+  - user: www-data
+  - unless: wp core is-installed --path="{{ app_dir }}" --allow-root
 
-# Install WP-CLI
-install_{{ app_name }}_wpcli:
-  cmd.script:
-    - name: wpcli-install
-    - source: salt://wordpress/files/wpcli-install.sh
-    - cwd: /
-    - user: root
-    - require:
-      - git: wordpress_{{ app_name }}_git
-    - unless: wp cli version --allow-root
+{%- if app.core_update %}
+
+wordpress_{{ app_name }}_core_update:
+  cmd.run:
+  - name: wp core update
+  - cwd: {{ app_dir }}
+  - user: www-data
+  - unless: wp core check-update
+
+{%- endif %}
+
+{%- if app.theme_update %}
+
+wordpress_{{ app_name }}_theme_update:
+  cmd.run:
+  - name: wp theme update --all
+  - cwd: {{ app_dir }}
+  - user: www-data
+
+{%- endif %}
+
+{%- for plugin_name, plugin in app.get('plugin', {}).iteritems() %}
+
+{%- if salt['cmd.retcode']('wp plugin is-installed '+plugin_name+' --path='+app_dir+' --allow-root') != 0 %}
+
+{%- if plugin.engine == 'http' %}
+
+wordpress_{{ app_name }}_{{ plugin_name }}:
+  cmd.run:
+    - name: wp plugin install {{ plugin_name }}{% if plugin.version != 'latest' %} --version='{{ plugin.version }}'{%- endif %}
+    - cwd: {{ app_dir }}
+    - user: www-data
+
+{%- elif plugin.source.engine == 'git' %}
+
+wordpress_{{ app_name }}_{{ plugin_name }}:
+  git.latest:
+    - name: {{ plugin.address }}
+    - rev: {{ plugin.get('revision', 'master') }}
+    - target: {{ app_dir }}/wp-content/plugins/{{ plugin_name }}
+    - user: www-data
+
+{%- endif %}
+
+{%- else %}
+
+{%- if plugin.source.engine == 'http' %}
+
+#{{ plugin_name }}_update:
+#  cmd.run:
+#    - name: wp plugin update {{ plugin_name }}{% if plugin.version != 'latest' %} --version='{{ plugin.version }}'{%- endif %}
+#    - cwd: {{ app_dir }}
+#    - user: www-data
+
+{%- elif plugin.source.engine == 'git' %}
+
+wordpress_{{ app_name }}_{{ plugin_name }}:
+  git.latest:
+    - name: {{ plugin.address }}
+    - rev: {{ plugin.get('revision', 'master') }}
+    - target: {{ app_root }}/wp-content/plugins/{{ plugin_name }}
+    - user: www-data
+
+{%- endif %}
+
+{%- endif %}
 
 {%- endfor %}
 
-/root/wordpress/scripts:
-  file.directory:
-  - user: root
-  - group: root
-  - mode: 700
-  - makedirs: true
-
-/root/wordpress/flags:
-  file.directory:
-  - user: root
-  - group: root
-  - mode: 700
-  - makedirs: true
+{%- endfor %}
 
 {%- endif %}

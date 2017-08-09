@@ -1,5 +1,23 @@
-{% set server = salt['grains.filter_by']({
-    'default': {
-        'git_source': 'https://github.com/WordPress/WordPress.git',
-    },
-}, merge=salt['pillar.get']('wordpress:server')) %}
+
+{%- load_yaml as server_common %}
+default:
+  pkgs:
+  - php5-mysql
+  - php5-gd
+  - php5-curl
+  - php5-intl
+  - php5-xmlrpc
+  - php5-mcrypt
+  - php5-dev
+  dir:
+    base: /srv/wordpress
+  cli:
+    source_address: https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+    source_hash: sha256=3edb7cac7dbd07a80c0ab592c0211aa89b158df43e647d8e5ad9a883a518ad60
+  source:
+    engine: git
+    address: https://github.com/WordPress/WordPress.git
+  app: {}
+{%- endload %}
+
+{% set server = salt['grains.filter_by'](server_common, merge=salt['pillar.get']('wordpress:server')) %}
