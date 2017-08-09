@@ -34,7 +34,7 @@ wordpress_dirs:
   - source_hash: {{ server.cli.source_hash }}
   - template: jinja
   - user: root
-  - mode: 700
+  - mode: 777
 
 /usr/local/bin/wp:
   file.symlink:
