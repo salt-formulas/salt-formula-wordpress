@@ -30,7 +30,7 @@ wordpress_{{ app_name }}_source:
   - template: jinja
   - mode: 644
   - require:
-    - git: wordpress_{{ app_name }}_git
+    - git: wordpress_{{ app_name }}_source
   - defaults:
       app_name: {{ app_name }}
 
