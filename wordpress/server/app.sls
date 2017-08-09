@@ -36,7 +36,7 @@ wordpress_{{ app_name }}_git:
     app_name: "{{ app_name }}"
 
 # Moving Tab completion script to temp dir.
-/tmp/wpcli-tab.sh:
+/srv/wordpress/sites/{{ app_name }}/wpcli-tab.sh:
   file.managed:
   - source: salt://wordpress/files/wpcli-tab.sh
   - template: jinja
@@ -45,9 +45,9 @@ wordpress_{{ app_name }}_git:
     - git: wordpress_{{ app_name }}_git
   - defaults:
     app_name: "{{ app_name }}"
-    
+
 # Install WP-CLI
-install_wpcli:
+install_{{ app_name }}_wpcli:
   cmd.script:
     - name: wpcli-install
     - source: salt://wordpress/files/wpcli-install.sh
