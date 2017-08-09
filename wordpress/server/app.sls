@@ -74,7 +74,7 @@ wordpress_{{ app_name }}_{{ plugin_name }}:
     - cwd: {{ app_dir }}
     - user: www-data
 
-{%- elif plugin.source.engine == 'git' %}
+{%- elif plugin.engine == 'git' %}
 
 wordpress_{{ app_name }}_{{ plugin_name }}:
   git.latest:
@@ -87,7 +87,7 @@ wordpress_{{ app_name }}_{{ plugin_name }}:
 
 {%- else %}
 
-{%- if plugin.source.engine == 'http' %}
+{%- if plugin.engine == 'http' %}
 
 #{{ plugin_name }}_update:
 #  cmd.run:
@@ -95,7 +95,7 @@ wordpress_{{ app_name }}_{{ plugin_name }}:
 #    - cwd: {{ app_dir }}
 #    - user: www-data
 
-{%- elif plugin.source.engine == 'git' %}
+{%- elif plugin.engine == 'git' %}
 
 wordpress_{{ app_name }}_{{ plugin_name }}:
   git.latest:
