@@ -4,3 +4,8 @@
 *.toc
 *.gz
 *_deprecated
+.kitchen
+tests/build/
+*.swp
+*.pyc
+.ropeproject
