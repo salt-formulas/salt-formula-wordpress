@@ -2,26 +2,44 @@
 {%- if server.enabled %}
 
 include:
-- php.environment
+- php
+- git
 
 wordpress_packages:
   pkg.installed:
-  - names:
-    - php5-mysql
-    - php5-gd
-    - php5-curl
-    - php5-intl
-    - php5-xmlrpc
-    - php5-mcrypt
-    - php5-dev
+  - names: {{ server.pkgs }}
   - require:
     - pkg: php_packages
+    - pkg: git_packages
 
-/srv/wordpress:
+wordpress_dirs:
   file.directory:
+  - names:
+    - {{ server.dir.base }}/sites
+    - /root/wordpress/scripts
+    - /root/wordpress/flags
   - user: root
-  - group: www-data
+  - group: root
   - mode: 755
   - makedirs: true
+
+{{ server.dir.base }}/wpcli-tab.sh:
+  file.managed:
+  - source: salt://wordpress/files/wpcli-tab.sh
+  - template: jinja
+  - user: root
+  - mode: 700
+
+{{ server.dir.base }}/wp-cli.phar:
+  file.managed:
+  - source: {{ server.cli.source_address }}
+  - source_hash: {{ server.cli.source_hash }}
+  - template: jinja
+  - user: root
+  - mode: 700
+
+/usr/local/bin/wp:
+  file.symlink:
+  - target: {{ server.dir.base }}/wp-cli.phar
 
 {%- endif %}
