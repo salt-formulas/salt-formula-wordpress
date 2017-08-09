@@ -64,7 +64,7 @@ wordpress_{{ app_name }}_theme_update:
 
 {%- for plugin_name, plugin in app.get('plugin', {}).iteritems() %}
 
-{%- if salt['cmd.retcode']('wp plugin is-installed '+plugin_name+' --path='+app_dir+' --allow-root') != 0 %}
+{%- if salt['cmd.retcode']('wp plugin is-installed '+plugin_name+' --path='+app_dir+' --allow-root 2>/dev/null || false', python_shell=true) != 0 %}
 
 {%- if plugin.engine == 'http' %}
 
