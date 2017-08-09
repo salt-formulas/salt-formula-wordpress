@@ -7,7 +7,7 @@ include:
 {%- for app_name, app in server.app.iteritems() %}
 
 # Check if WP-CLI is running.
-{%- if salt['cmd.retcode']('wp cli version --allow-root') != 1 %}
+{%- if salt['cmd.retcode']('wp cli version --allow-root 2>/dev/null || false', python_shell=true) == 0 %}
 
 {%- set web_path='/srv/wordpress/sites/'+app_name+'/root/' %}
   
