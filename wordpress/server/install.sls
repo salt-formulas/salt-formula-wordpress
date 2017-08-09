@@ -13,7 +13,7 @@ include:
   
 # Install DB tables if they are not present.
 {%- if salt['cmd.retcode']('wp core is-installed --path="'+web_path+'" --allow-root') == 1 %}
-wp_install:
+wp_{{ app_name }}_install:
   cmd.run:
     - name: wp core install --url='{{ app.core_install.url }}' --title='{{ app.core_install.title }}' --admin_user='{{ app.core_install.admin_user }}' --admin_password='{{ app.core_install.admin_password }}' --admin_email='{{ app.core_install.admin_email }}'
     - cwd: {{ web_path }}
@@ -22,7 +22,7 @@ wp_install:
  
 # Do core update is enabled and core needs update.
 {%- if app.do_update.core_update %}
-wp_core_update:
+wp_core_{{ app_name }}_update:
   cmd.run:
     - name: wp core update
     - cwd: {{ web_path }}
@@ -32,7 +32,7 @@ wp_core_update:
   
 # Update all themes if enabled.
 {%- if app.do_update.theme_update %}
-wp_theme_update:
+wp_theme_{{ app_name }}_update:
   cmd.run:
     - name: wp theme update --all
     - cwd: {{ web_path }}
