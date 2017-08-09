@@ -2,14 +2,12 @@
 {%- if server.enabled %}
 
 include:
-- php
 - git
 
 wordpress_packages:
   pkg.installed:
   - names: {{ server.pkgs }}
   - require:
-    - pkg: php_packages
     - pkg: git_packages
 
 wordpress_dirs:
